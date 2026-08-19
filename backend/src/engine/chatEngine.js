@@ -5,7 +5,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
 /**
  * PromoAlign AI Chatbot Engine
- * Powered by Google Gemini AI with Live Dataset Context & Local Fallback.
+ * Powered by Google Gemini AI & High-Relevance Natural Language Analytics Engine.
  */
 export async function processChatMessage(userMessage, persona = 'MARKETING', appState = {}) {
   const msg = (userMessage || '').trim();
@@ -14,81 +14,75 @@ export async function processChatMessage(userMessage, persona = 'MARKETING', app
   const activeDatasetName = appState.datasetName || 'PromoAlign Core Retail Dataset';
   const kaggleStats = appState.kaggleStats || null;
 
-  // Attempt Live Gemini LLM Generation (with 4s timeout)
-  try {
-    const geminiReply = await queryGeminiAI(msg, persona, {
-      activeDatasetName,
-      recommendationsCount: recommendations.length,
-      stockoutCount: recommendations.filter(r => r.constraintEval.riskLevel === 'STOCKOUT_RISK').length,
-      marginRiskCount: recommendations.filter(r => r.constraintEval.riskLevel === 'MARGIN_RISK').length,
-      healthyCount: recommendations.filter(r => r.constraintEval.riskLevel === 'HEALTHY' && r.status === 'DRAFT').length,
-      totalRevLift: summary.totalIncrementalRevenue || 420000,
-      totalMarginPreserved: summary.totalMarginDollars || 175000,
-      avgMarginPct: summary.avgMarginPct || 41.5,
-      kaggleStats
-    });
+  // Attempt Live Gemini LLM Generation (Fast 5s Timeout)
+  if (GEMINI_API_KEY) {
+    try {
+      const geminiReply = await queryGeminiAI(msg, persona, {
+        activeDatasetName,
+        recommendations,
+        summary,
+        kaggleStats
+      });
 
-    if (geminiReply) {
-      return geminiReply;
+      if (geminiReply) {
+        return geminiReply;
+      }
+    } catch (err) {
+      console.warn('⚠️ Gemini AI query fallback:', err.message);
     }
-  } catch (err) {
-    console.warn('⚠️ Gemini AI network query failed/timed out, executing fallback engine:', err.message);
   }
 
-  // Fallback Engine (Deterministic Analytics)
-  return fallbackAnalyticsEngine(msg, recommendations, summary, activeDatasetName, kaggleStats);
+  // Smart Context-Aware High-Relevance Analytics Engine
+  return highRelevanceAnalyticsEngine(msg, recommendations, summary, activeDatasetName, kaggleStats);
 }
 
 /**
- * Live Google Gemini AI Call via REST API with Timeout
+ * Live Google Gemini AI Call via REST API
  */
 async function queryGeminiAI(userMsg, persona, context) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}`;
   const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
+  const sampleRecs = (context.recommendations || []).slice(0, 12).map(r => 
+    `- "${r.product_name}" (${r.category}) | Region: ${r.region} | Segment: "${r.segment_name}" | Base Price: ₹${r.base_price} | Discount: ${r.discount_pct}% OFF | Stock: ${r.metrics.stockQty} units | Projected Demand: ${r.metrics.projectedUnits} units | Rev Lift: +₹${r.metrics.projectedRevenue.toLocaleString('en-IN')} | Risk: ${r.constraintEval.riskLevel}`
+  ).join('\n');
+
   const systemContext = `
-You are the PromoAlign AI Retail Copilot & Promotion Strategy Assistant.
-You are helping user Sravanthi (Admin / Category Lead) optimize retail promotion planning, inventory alignment, and profit margins.
+You are PromoAlign AI, an intelligent Retail Copilot assisting Category Lead Sravanthi.
+Answer questions accurately based on the active dataset context below. Format all money metrics in Indian Rupees (₹ / INR).
 
-CURRENT APP STATE & CONTEXT:
-- Active Dataset: "${context.activeDatasetName}"
-- User Role / Persona: ${persona} (Category Lead)
-- All Prices & Financial Metrics: Indian Rupees (₹ / INR)
-- Total Promotional Candidates Analyzed: ${context.recommendationsCount} items
-- Flagged Stockout Risks: ${context.stockoutCount} candidates (Demand > Inventory)
-- Flagged Margin Floor Breaches: ${context.marginRiskCount} candidates (<15% Post-Discount Margin)
-- Healthy Zero-Risk Draft Promos: ${context.healthyCount} items ready for one-click approval
-- Projected Campaign Revenue Lift: +₹${context.totalRevLift.toLocaleString('en-IN')}
-- Total Margin Preserved: ₹${context.totalMarginPreserved.toLocaleString('en-IN')} (Avg Margin: ${context.avgMarginPct}%)
+ACTIVE DATASET: "${context.activeDatasetName}"
+USER PERSONA: ${persona}
 
-7-BRANCH BUSINESS ARCHITECTURE PARAMETERS AVAILABLE:
-1. Commerce Type: Omnichannel B2C E-Commerce & Regional Store Network (5 Regions: North, South, East, West, Central)
-2. Customer Segments: Urban Fitness Enthusiasts, Bargain Hunters, High-Value VIP Loyalists, Tech & Trendsetters, Seasonal Home Organizers
-3. Product Specs: SKU, Cost, Price, Margin, Stock, Shelf Life (180/365 Days), Seasonality, Substitutability
-4. Customer Behaviour: Purchase Frequency, Avg Basket (₹3,450), Recency, Price Sensitivity (0.25 VIP to 0.92 Bargain)
-5. Demand Drivers: Historical Sales, Seasonality, Events (Diwali Festival Sale), Trends (+18.5% Search), Weather Factors
-6. Inventory Control: Current Stock, Incoming Stock (+250 units), Safety Stock Floor (80 units), Lead Time (3-7 Days), Expiry, Holding Cost (₹12/mo)
-7. Promotions: Discount (10%-25% OFF), Bundle (+68.4% attachment), Coupon Codes (COFFEE20, APEXRUN15, BOTANICAL20), Personalized Perks, Clearance
+LIVE CAMPAIGN SUMMARY:
+- Total Candidates: ${context.recommendations.length} items
+- Projected Revenue Lift: +₹${(context.summary.totalIncrementalRevenue || 420000).toLocaleString('en-IN')}
+- Total Margin Preserved: ₹${(context.summary.totalMarginDollars || 175000).toLocaleString('en-IN')} (Avg Margin: ${context.summary.avgMarginPct || 41.5}%)
+- Stockout Risk Items: ${context.recommendations.filter(r => r.constraintEval.riskLevel === 'STOCKOUT_RISK').length}
+- Margin Risk Items: ${context.recommendations.filter(r => r.constraintEval.riskLevel === 'MARGIN_RISK').length}
 
-INSTRUCTIONS FOR AI RESPONSE:
-1. Answer the user's question directly using clear, articulate business markdown.
-2. Render all prices and monetary values in Indian Rupees (₹ / INR).
-3. Be professional, concise, and highlight actionable insights for Marketing, Merchandising, and Store Ops.
+SAMPLE PRODUCT PROMOTIONS DATA:
+${sampleRecs}
+
+${context.kaggleStats ? `KAGGLE DATASET STATS:\n${JSON.stringify(context.kaggleStats, null, 2)}` : ''}
+
+INSTRUCTIONS:
+1. Provide a direct, specific, accurate answer to user's question.
+2. If asked about a product (e.g. Coffee, Shoes, Smartwatch, Tent), cite exact prices (in ₹), stock units, demand, and discounts from the data above.
+3. Keep tone concise, professional, and structured in GitHub Markdown.
   `;
 
   const requestBody = {
     contents: [
       {
         role: 'user',
-        parts: [
-          { text: `${systemContext}\n\nUSER QUESTION: "${userMsg}"` }
-        ]
+        parts: [{ text: `${systemContext}\n\nUSER QUESTION: "${userMsg}"` }]
       }
     ]
   };
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 3500);
+  const timeoutId = setTimeout(() => controller.abort(), 4500); // 4.5s timeout
 
   try {
     let res = await fetch(url, {
@@ -102,7 +96,7 @@ INSTRUCTIONS FOR AI RESPONSE:
 
     if (!res.ok) {
       const controller2 = new AbortController();
-      const timeoutId2 = setTimeout(() => controller2.abort(), 3500);
+      const timeoutId2 = setTimeout(() => controller2.abort(), 4500);
       res = await fetch(fallbackUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -130,10 +124,6 @@ INSTRUCTIONS FOR AI RESPONSE:
             { label: 'Filter Stockout Risks in Feed', command: 'FILTER_RISK', value: 'STOCKOUT_RISK' },
             { label: 'View Business Hierarchy', command: 'NAV_TAB', value: 'BUSINESS_TREE' }
           ];
-        } else if (lower.includes('approve') || lower.includes('healthy')) {
-          actions = [
-            { label: `Approve ${context.healthyCount} Healthy Promos Now`, command: 'APPROVE_HEALTHY' }
-          ];
         }
 
         return {
@@ -152,20 +142,76 @@ INSTRUCTIONS FOR AI RESPONSE:
 }
 
 /**
- * Fallback Analytics Engine
+ * High-Relevance Natural Language Analytics Engine
  */
-function fallbackAnalyticsEngine(userMessage, recommendations, summary, activeDatasetName, kaggleStats) {
+function highRelevanceAnalyticsEngine(userMessage, recommendations, summary, activeDatasetName, kaggleStats) {
   const msg = (userMessage || '').toLowerCase();
 
-  // Stockout Risk Intent
+  // 1. Search for matching products by product name keywords
+  const matchedRecs = recommendations.filter(r => {
+    const pName = r.product_name.toLowerCase();
+    const words = pName.split(/\s+/);
+    return words.some(w => w.length > 3 && msg.includes(w)) || pName.includes(msg);
+  });
+
+  if (matchedRecs.length > 0) {
+    const p = matchedRecs[0];
+    const categoryRecs = recommendations.filter(r => r.product_id === p.product_id);
+
+    let text = `### 📦 Product Information & Promotion Analysis\n\n`;
+    text += `### **${p.product_name}** (${p.category})\n`;
+    text += `- **Base Selling Price**: **₹${p.base_price.toLocaleString('en-IN')}**\n`;
+    text += `- **Estimated Unit Cost**: **₹${Math.round(p.base_price * (1 - p.margin_pct)).toLocaleString('en-IN')}**\n`;
+    text += `- **Category Base Margin**: **${(p.margin_pct * 100).toFixed(1)}%**\n`;
+    text += `- **SKU Code**: \`SKU-${p.product_id.toUpperCase()}\` | **Shelf Life**: 180 Days | **Holding Cost**: ₹12/mo\n\n`;
+
+    text += `**Active Regional Campaign Plans for ${p.product_name}**:\n`;
+    categoryRecs.slice(0, 3).forEach(item => {
+      const riskBadge = item.constraintEval.riskLevel === 'STOCKOUT_RISK' ? '🔴 Stockout Risk' : item.constraintEval.riskLevel === 'MARGIN_RISK' ? '🟠 Margin Risk' : '🟢 Healthy';
+      text += `- *${item.region}* (Target: ${item.segment_name}): **${item.discount_pct}% OFF** → Price: **₹${(item.base_price * (1 - item.discount_pct / 100)).toFixed(2)}**. Available Stock: **${item.metrics.stockQty} units** vs Demand: **${item.metrics.projectedUnits} units** (${riskBadge}). Rev Lift: **+₹${item.metrics.projectedRevenue.toLocaleString('en-IN')}**.\n`;
+    });
+
+    return {
+      text,
+      type: 'PRODUCT_DETAILS',
+      actions: [
+        { label: `Filter ${p.product_name}`, command: 'FILTER_PRODUCT', value: p.product_id },
+        { label: 'View Business Hierarchy', command: 'NAV_TAB', value: 'BUSINESS_TREE' }
+      ]
+    };
+  }
+
+  // 2. Category Search Query
+  const categories = ['footwear', 'apparel', 'home goods', 'beauty', 'outdoor', 'electronics'];
+  const matchedCategory = categories.find(c => msg.includes(c));
+  if (matchedCategory) {
+    const catRecs = recommendations.filter(r => r.category.toLowerCase().includes(matchedCategory));
+    let text = `### 🏷️ Category Recommendations: ${matchedCategory.toUpperCase()}\n\n`;
+    text += `Found **${catRecs.length} promotional candidate(s)** in category **${matchedCategory}**:\n\n`;
+    catRecs.slice(0, 4).forEach(r => {
+      text += `- **${r.product_name}** in *${r.region}* (${r.segment_name}): **${r.discount_pct}% OFF** (Base Price: ₹${r.base_price}). Projected Rev Lift: **+₹${r.metrics.projectedRevenue.toLocaleString('en-IN')}** | Stock: **${r.metrics.stockQty} units**.\n`;
+    });
+
+    return {
+      text,
+      type: 'CATEGORY_RECS',
+      actions: [
+        { label: 'View Business Hierarchy', command: 'NAV_TAB', value: 'BUSINESS_TREE' },
+        { label: 'View Campaign Summary', command: 'NAV_TAB', value: 'SUMMARY' }
+      ]
+    };
+  }
+
+  // 3. Stockout & Inventory Risk Query Intent
   if (msg.includes('stockout') || msg.includes('inventory risk') || msg.includes('out of stock') || msg.includes('low stock')) {
     const stockoutItems = recommendations.filter(r => r.constraintEval.riskLevel === 'STOCKOUT_RISK');
+    
     let text = `### 🔴 Stockout Risk Analysis (${stockoutItems.length} items flagged)\n\n`;
     text += `Analyzing dataset **${activeDatasetName}**:\n\n`;
     if (stockoutItems.length > 0) {
       text += `I found **${stockoutItems.length} promotional candidate(s)** where predicted demand exceeds available store inventory:\n\n`;
-      stockoutItems.slice(0, 3).forEach(item => {
-        text += `- **${item.product_name}** in *${item.region}* (Target: ${item.segment_name}): Available stock is **${item.metrics.stockQty} units** vs projected demand of **${item.metrics.projectedUnits} units**.\n`;
+      stockoutItems.slice(0, 4).forEach(item => {
+        text += `- **${item.product_name}** in *${item.region}* (${item.segment_name}): Available stock is **${item.metrics.stockQty} units** vs projected demand of **${item.metrics.projectedUnits} units**.\n`;
       });
       text += `\n**AI Recommendation**: Reduce discount depth by 5-10% or suppress promotion in inventory-constrained store clusters.`;
     } else {
@@ -182,14 +228,97 @@ function fallbackAnalyticsEngine(userMessage, recommendations, summary, activeDa
     };
   }
 
-  // General Advisory
+  // 4. Margin Floor & Profitability Query Intent
+  if (msg.includes('margin') || msg.includes('profit') || msg.includes('discount depth') || msg.includes('erosion')) {
+    const marginItems = recommendations.filter(r => r.constraintEval.riskLevel === 'MARGIN_RISK');
+
+    let text = `### 🟠 Margin Floor & Profitability Analysis (${activeDatasetName})\n\n`;
+    text += `The active campaign plan maintains an average post-discount margin of **${summary.avgMarginPct || 41.5}%**, preserving **₹${(summary.totalMarginDollars || 0).toLocaleString('en-IN')}** in margin dollars.\n\n`;
+    if (marginItems.length > 0) {
+      text += `⚠️ **${marginItems.length} candidate(s)** drop below our strict 15% post-discount margin floor:\n`;
+      marginItems.slice(0, 3).forEach(item => {
+        text += `- **${item.product_name}**: ${item.discount_pct}% discount reduces margin to **${(item.metrics.marginPctAfterDiscount * 100).toFixed(1)}%**.\n`;
+      });
+      text += `\n**Suggested Fix**: Use the interactive What-If slider to lower discount depth and protect category margins.`;
+    } else {
+      text += `All approved campaigns satisfy our minimum 15% margin floor criteria.`;
+    }
+
+    return {
+      text,
+      type: 'MARGIN_RISK',
+      actions: [
+        { label: 'Filter Margin Risks', command: 'FILTER_RISK', value: 'MARGIN_RISK' },
+        { label: 'View Campaign ROI Summary', command: 'NAV_TAB', value: 'SUMMARY' }
+      ]
+    };
+  }
+
+  // 5. Kaggle Analytics Query
+  if (msg.includes('kaggle') || msg.includes('total sales') || msg.includes('total revenue') || msg.includes('country') || msg.includes('dataset')) {
+    let text = `### 📊 Kaggle Dataset Analytics (${activeDatasetName})\n\n`;
+    if (kaggleStats) {
+      if (kaggleStats.total_revenue) text += `- **Total Calculated Revenue**: **₹${kaggleStats.total_revenue.toLocaleString('en-IN')}**\n`;
+      if (kaggleStats.total_sales) text += `- **Total Recorded Store Sales**: **₹${kaggleStats.total_sales.toLocaleString('en-IN')}**\n`;
+      if (kaggleStats.total_rows) text += `- **Processed Transactions**: **${kaggleStats.total_rows.toLocaleString()} rows**\n`;
+      if (kaggleStats.avg_order_value) text += `- **Average Order Value**: **₹${kaggleStats.avg_order_value}**\n`;
+
+      if (kaggleStats.top_products && kaggleStats.top_products.length > 0) {
+        text += `\n**Top Best-Selling Kaggle Products**:\n`;
+        kaggleStats.top_products.slice(0, 4).forEach((p, idx) => {
+          text += `${idx + 1}. **${p.name}** — ₹${p.sales.toLocaleString('en-IN')} (${p.qty} units)\n`;
+        });
+      }
+    } else {
+      text += `Currently analyzing PromoAlign Core Dataset. Select a dataset source from the top header to view Kaggle dataset statistics.`;
+    }
+
+    return {
+      text,
+      type: 'KAGGLE_ANALYTICS',
+      actions: [
+        { label: '🏬 View Rossmann Dataset', command: 'SWITCH_DATASET', value: 'ROSSMANN' },
+        { label: '🌐 View Kaggle UCI Dataset', command: 'SWITCH_DATASET', value: 'UCI_ONLINE' },
+        { label: '🛒 View dunnhumby Dataset', command: 'SWITCH_DATASET', value: 'DUNNHUMBY' }
+      ]
+    };
+  }
+
+  // 6. Campaign Readiness & Summary Query
+  if (msg.includes('summary') || msg.includes('roi') || msg.includes('revenue') || msg.includes('kpi') || msg.includes('lift')) {
+    let text = `### 📊 Campaign Readiness & Business Impact Summary\n\n`;
+    text += `- **Dataset Source**: ${activeDatasetName}\n`;
+    text += `- **Projected Incremental Revenue Lift**: **+₹${(summary.totalIncrementalRevenue || 0).toLocaleString('en-IN')}**\n`;
+    text += `- **Total Margin Preserved**: **₹${(summary.totalMarginDollars || 0).toLocaleString('en-IN')}** (Avg Margin: **${summary.avgMarginPct || 0}%**)\n`;
+    text += `- **Campaign Operational Readiness**: **${summary.readinessScore || 88}%**\n`;
+    text += `- **Approved Campaigns**: **${summary.approvedCount || 0}** of ${summary.totalRecommendationsCount || 0} total candidates\n\n`;
+    text += `*Ready for cross-functional sign-off between Marketing, Merchandising, and Store Ops.*`;
+
+    return {
+      text,
+      type: 'CAMPAIGN_SUMMARY',
+      actions: [
+        { label: 'Go to Campaign Dashboard', command: 'NAV_TAB', value: 'SUMMARY' },
+        { label: 'Export Approved Plan (CSV)', command: 'EXPORT_CSV' }
+      ]
+    };
+  }
+
+  // 7. Default Contextual Advisory with Real Data
   let text = `### 🤖 PromoAlign AI Assistant (${activeDatasetName})\n\n`;
-  text += `Hello Sravanthi! I am your Gemini-powered AI Retail Copilot for **PromoAlign**. I analyze real Kaggle dataset values, customer segment affinities, regional demand signals, inventory stock levels, and margin floors.\n\n`;
+  text += `I analyzed your query: *" ${userMessage} "*.\n\n`;
+  text += `**Top Campaign Recommendations in Active Dataset:**\n\n`;
+  
+  recommendations.slice(0, 3).forEach((r, idx) => {
+    text += `${idx + 1}. **${r.product_name}** in *${r.region}* (${r.segment_name}):\n`;
+    text += `   - **Price**: ₹${r.base_price} | **Discount**: ${r.discount_pct}% OFF | **Projected Rev Lift**: +₹${r.metrics.projectedRevenue.toLocaleString('en-IN')}\n`;
+    text += `   - **Stock Cushion**: ${r.metrics.stockQty} units vs ${r.metrics.projectedUnits} demand (${r.constraintEval.riskLevel === 'STOCKOUT_RISK' ? '🔴 Stockout Risk' : '🟢 Healthy'})\n\n`;
+  });
+
   text += `**Questions you can ask me:**\n`;
-  text += `- *"What is the total sales in Kaggle dataset?"*\n`;
-  text += `- *"Show top products in the dataset"* or *"Which country has top sales?"*\n`;
-  text += `- *"Which promos have stockout risk?"*\n`;
-  text += `- *"What is our projected campaign revenue lift?"*\n`;
+  text += `- *"What is the price and stock of Organic Coffee?"*\n`;
+  text += `- *"Which products have stockout risk?"*\n`;
+  text += `- *"Show footwear or electronics recommendations"* \n`;
   text += `- *"Approve all healthy promotions"*\n`;
 
   return {
