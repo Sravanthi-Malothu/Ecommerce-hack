@@ -502,9 +502,9 @@ router.get('/pipeline', (req, res) => {
 
 /**
  * POST /api/chat
- * AI Chatbot assistant query endpoint
+ * AI Chatbot assistant query endpoint powered by Google Gemini AI
  */
-router.post('/chat', (req, res) => {
+router.post('/chat', async (req, res) => {
   const { message, persona } = req.body;
   
   // Calculate summary metrics on the fly for chatbot state
@@ -530,7 +530,7 @@ router.post('/chat', (req, res) => {
     readinessScore
   };
 
-  const response = processChatMessage(message, persona, {
+  const response = await processChatMessage(message, persona, {
     recommendations: appState.recommendations,
     summary,
     datasetName: appState.rawDataset.dataset_name,

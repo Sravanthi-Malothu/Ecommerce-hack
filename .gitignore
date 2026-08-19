@@ -18,6 +18,10 @@ yarn-error.log*
 # Environment & local secrets
 .env
 .env.local
+backend/.env
+
+# Raw generated dataset CSVs
+backend/src/data/raw/*.csv
 .env.development.local
 .env.production.local
 
