@@ -9,11 +9,12 @@ import MonthlyPerformanceTrackerView from './components/MonthlyPerformanceTracke
 import DecisionHistoryTrackerView from './components/DecisionHistoryTrackerView';
 import ChatbotWidget from './components/ChatbotWidget';
 import ProductAssessmentModal from './components/ProductAssessmentModal';
+import UserProfileModal from './components/UserProfileModal';
 
 const API_BASE = 'http://localhost:5001/api';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('FEED'); // 'FEED', 'SUMMARY', 'HEATMAP', 'FATIGUE'
+  const [activeTab, setActiveTab] = useState('FEED'); // 'FEED', 'SUMMARY', 'HEATMAP', 'FATIGUE', 'MONTHLY_PERFORMANCE', 'DECISION_HISTORY'
   const [persona, setPersona] = useState('MARKETING');
   const [activeDatasetId, setActiveDatasetId] = useState('SYNTHETIC');
   const [recommendations, setRecommendations] = useState([]);
@@ -22,6 +23,19 @@ export default function App() {
   const [fatigueData, setFatigueData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAssessmentItem, setSelectedAssessmentItem] = useState(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [userProfile, setUserProfile] = useState({
+    name: 'Sravanthi',
+    email: 'sravanthi.malothu@promoalign.ai',
+    role: 'Admin / Category Lead',
+    regionFocus: 'ALL',
+    currency: 'USD',
+    alerts: {
+      stockout: true,
+      margin: true,
+      fatigue: true
+    }
+  });
 
   const fetchData = async (silent = false) => {
     try {
@@ -238,6 +252,8 @@ export default function App() {
           summary={summary}
           onResetDataset={handleResetDataset}
           onGlobalSearch={(q) => handleNLSearch(q)}
+          userProfile={userProfile}
+          onOpenProfile={() => setIsProfileOpen(true)}
         />
 
         {/* Main Content Workspace */}
@@ -312,6 +328,21 @@ export default function App() {
         <ProductAssessmentModal
           item={selectedAssessmentItem}
           onClose={() => setSelectedAssessmentItem(null)}
+        />
+      )}
+
+      {/* User Profile & Category Lead Settings Drawer */}
+      {isProfileOpen && (
+        <UserProfileModal
+          userProfile={userProfile}
+          onSaveProfile={(updated) => {
+            setUserProfile(updated);
+            if (updated.regionFocus && updated.regionFocus !== 'ALL') {
+              handleNLSearch(updated.regionFocus);
+            }
+          }}
+          onClose={() => setIsProfileOpen(false)}
+          onExportAudit={handleExportCSV}
         />
       )}
 

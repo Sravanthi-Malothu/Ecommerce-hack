@@ -21,7 +21,9 @@ export default function Navbar({
   onSelectDataset,
   summary,
   onResetDataset,
-  onGlobalSearch
+  onGlobalSearch,
+  userProfile,
+  onOpenProfile
 }) {
   const personaOptions = [
     { id: 'MARKETING', label: 'Marketing Manager', icon: TrendingUp },
@@ -99,16 +101,24 @@ export default function Navbar({
             <span className="hidden sm:inline">Reset</span>
           </button>
 
-          {/* User Profile Badge */}
-          <div className="flex items-center gap-2.5 pl-2 border-l border-slate-200">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-400 text-white font-bold text-xs flex items-center justify-center shadow-sm">
-              S
+          {/* User Profile Badge (Clickable) */}
+          <button
+            onClick={onOpenProfile}
+            title="Click to view & edit Profile & Category Lead Preferences"
+            className="flex items-center gap-2.5 pl-2 border-l border-slate-200 hover:opacity-80 transition-all cursor-pointer group text-left"
+          >
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-400 text-white font-bold text-xs flex items-center justify-center shadow-sm group-hover:ring-2 group-hover:ring-indigo-500/30">
+              {(userProfile?.name || 'Sravanthi').charAt(0).toUpperCase()}
             </div>
-            <div className="hidden md:block text-left">
-              <div className="text-xs font-bold text-slate-900 leading-tight">Sravanthi</div>
-              <div className="text-[10px] font-medium text-slate-500">Admin / Category Lead</div>
+            <div className="hidden md:block">
+              <div className="text-xs font-bold text-slate-900 leading-tight group-hover:text-indigo-600 transition-colors">
+                {userProfile?.name || 'Sravanthi'}
+              </div>
+              <div className="text-[10px] font-medium text-slate-500">
+                {userProfile?.role || 'Admin / Category Lead'}
+              </div>
             </div>
-          </div>
+          </button>
 
         </div>
 
