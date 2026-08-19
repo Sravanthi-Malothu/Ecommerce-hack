@@ -1,6 +1,6 @@
 /**
  * PromoAlign AI Chatbot Engine
- * Context-aware retail advisory, stockout/margin Q&A, and live UI command execution.
+ * Answers questions based on exact Kaggle dataset records & active recommendations.
  */
 
 export function processChatMessage(userMessage, persona = 'MARKETING', appState = {}) {
@@ -8,12 +8,77 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
   const recommendations = appState.recommendations || [];
   const summary = appState.summary || {};
   const activeDatasetName = appState.datasetName || 'Retail Dataset';
+  const kaggleStats = appState.kaggleStats || null;
 
-  // 1. Stockout & Inventory Risk Query Intent
+  // 1. Kaggle Dataset Analytics Intent (exact values from downloaded Kaggle CSVs)
+  if (msg.includes('total sales') || msg.includes('total revenue') || msg.includes('top product') || msg.includes('top country') || msg.includes('kaggle') || msg.includes('dataset stats') || msg.includes('average order') || msg.includes('how many rows')) {
+    let text = `### 📊 Kaggle Dataset Analytics (${activeDatasetName})\n\n`;
+    text += `Based on the exact records extracted from the **${activeDatasetName}**:\n\n`;
+
+    if (kaggleStats) {
+      if (kaggleStats.total_revenue) {
+        text += `- **Total Calculated Revenue**: **$${kaggleStats.total_revenue.toLocaleString()}**\n`;
+      }
+      if (kaggleStats.total_sales) {
+        text += `- **Total Recorded Store Sales**: **$${kaggleStats.total_sales.toLocaleString()}**\n`;
+      }
+      if (kaggleStats.total_rows) {
+        text += `- **Processed Transactions/Records**: **${kaggleStats.total_rows.toLocaleString()} rows**\n`;
+      }
+      if (kaggleStats.avg_order_value) {
+        text += `- **Average Transaction Value**: **$${kaggleStats.avg_order_value}**\n`;
+      }
+      if (kaggleStats.avg_sales_per_customer) {
+        text += `- **Avg Sales per Customer**: **$${kaggleStats.avg_sales_per_customer}**\n`;
+      }
+      if (kaggleStats.avg_discount_share) {
+        text += `- **Avg Retail Discount Share**: **${kaggleStats.avg_discount_share}%**\n`;
+      }
+
+      // Top Countries Breakdown if available
+      if (kaggleStats.top_countries && kaggleStats.top_countries.length > 0) {
+        text += `\n**Top Customer Countries by Sales Volume**:\n`;
+        kaggleStats.top_countries.forEach((c, idx) => {
+          text += `${idx + 1}. **${c.country}**: $${c.sales.toLocaleString()}\n`;
+        });
+      }
+
+      // Top Products Breakdown if available
+      if (kaggleStats.top_products && kaggleStats.top_products.length > 0) {
+        text += `\n**Top Best-Selling Kaggle Products**:\n`;
+        kaggleStats.top_products.forEach((p, idx) => {
+          text += `${idx + 1}. **${p.name}** — $${p.sales.toLocaleString()} (${p.qty} units)\n`;
+        });
+      }
+
+      // Top Stores Breakdown if available
+      if (kaggleStats.top_stores && kaggleStats.top_stores.length > 0) {
+        text += `\n**Top Performing Rossmann Store Clusters**:\n`;
+        kaggleStats.top_stores.forEach((s, idx) => {
+          text += `${idx + 1}. **${s.store}**: $${s.sales.toLocaleString()}\n`;
+        });
+      }
+    } else {
+      text += `Currently analyzing candidate promotion scores. Select a dataset source from the top header to view Kaggle dataset statistics.`;
+    }
+
+    return {
+      text,
+      type: 'KAGGLE_ANALYTICS',
+      actions: [
+        { label: '🏬 View Rossmann Dataset', command: 'SWITCH_DATASET', value: 'ROSSMANN' },
+        { label: '🌐 View Kaggle UCI Dataset', command: 'SWITCH_DATASET', value: 'UCI_ONLINE' },
+        { label: '🛒 View dunnhumby Dataset', command: 'SWITCH_DATASET', value: 'DUNNHUMBY' }
+      ]
+    };
+  }
+
+  // 2. Stockout & Inventory Risk Query Intent
   if (msg.includes('stockout') || msg.includes('inventory risk') || msg.includes('out of stock') || msg.includes('low stock')) {
     const stockoutItems = recommendations.filter(r => r.constraintEval.riskLevel === 'STOCKOUT_RISK');
     
     let text = `### 🔴 Stockout Risk Analysis (${stockoutItems.length} items flagged)\n\n`;
+    text += `Analyzing dataset **${activeDatasetName}**:\n\n`;
     if (stockoutItems.length > 0) {
       text += `I found **${stockoutItems.length} promotional candidate(s)** where predicted demand exceeds available store inventory:\n\n`;
       stockoutItems.slice(0, 3).forEach(item => {
@@ -34,11 +99,11 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
     };
   }
 
-  // 2. Margin Erosion / Profitability Query Intent
+  // 3. Margin Erosion / Profitability Query Intent
   if (msg.includes('margin') || msg.includes('profit') || msg.includes('discount depth') || msg.includes('erosion')) {
     const marginItems = recommendations.filter(r => r.constraintEval.riskLevel === 'MARGIN_RISK');
 
-    let text = `### 🟠 Margin Floor & Profitability Analysis\n\n`;
+    let text = `### 🟠 Margin Floor & Profitability Analysis (${activeDatasetName})\n\n`;
     text += `The active campaign plan maintains an average post-discount margin of **${summary.avgMarginPct || 41.5}%**, preserving **$${(summary.totalMarginDollars || 0).toLocaleString()}** in margin dollars.\n\n`;
     if (marginItems.length > 0) {
       text += `⚠️ **${marginItems.length} candidate(s)** drop below our strict 15% post-discount margin floor:\n`;
@@ -60,7 +125,7 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
     };
   }
 
-  // 3. Campaign ROI & Revenue Summary Query Intent
+  // 4. Campaign ROI & Revenue Summary Query Intent
   if (msg.includes('summary') || msg.includes('roi') || msg.includes('revenue') || msg.includes('readiness') || msg.includes('kpi')) {
     let text = `### 📊 Campaign Readiness & Business Impact Summary\n\n`;
     text += `- **Dataset Source**: ${activeDatasetName}\n`;
@@ -80,7 +145,7 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
     };
   }
 
-  // 4. One-Click Approval / Action Intent
+  // 5. One-Click Approval / Action Intent
   if (msg.includes('approve') || msg.includes('one-click') || msg.includes('sign-off')) {
     const healthyCount = recommendations.filter(r => r.constraintEval.riskLevel === 'HEALTHY' && r.status === 'DRAFT').length;
 
@@ -98,45 +163,23 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
     };
   }
 
-  // 5. Region / Category Query Intent
-  if (msg.includes('north') || msg.includes('south') || msg.includes('east') || msg.includes('west') || msg.includes('central')) {
-    const matchedRegion = ['North Region', 'South Region', 'East Region', 'West Region', 'Central Region'].find(
-      r => msg.includes(r.toLowerCase()) || msg.includes(r.split(' ')[0].toLowerCase())
-    ) || 'North Region';
-
-    const regionItems = recommendations.filter(r => r.region === matchedRegion);
-
-    let text = `### 📍 Regional Overview: ${matchedRegion}\n\n`;
-    text += `Found **${regionItems.length} candidate promotion(s)** targeting ${matchedRegion}:\n\n`;
-    regionItems.slice(0, 3).forEach(item => {
-      text += `- **${item.product_name}** (${item.discount_pct}% OFF) for *${item.segment_name}* — Fit Score: **${item.metrics.fitScore}** (${item.constraintEval.riskLevel})\n`;
-    });
-
-    return {
-      text,
-      type: 'REGIONAL_QUERY',
-      actions: [
-        { label: `Filter Feed by ${matchedRegion}`, command: 'FILTER_REGION', value: matchedRegion }
-      ]
-    };
-  }
-
   // 6. Default AI Advisory Response
-  let text = `### 🤖 PromoAlign AI Assistant\n\n`;
-  text += `Hello! I am your AI Retail Copilot for **PromoAlign**. I analyze customer segment affinities, regional demand signals, inventory stock levels, and margin floors to optimize campaign profitability.\n\n`;
-  text += `**How I can help you:**\n`;
-  text += `- Ask *"Which promos have stockout risk?"*\n`;
-  text += `- Ask *"What is our projected campaign revenue lift?"*\n`;
-  text += `- Ask *"Show me margin risks"* or *"Filter by North region"*\n`;
-  text += `- Say *"Approve all healthy promotions"*\n`;
+  let text = `### 🤖 PromoAlign AI Assistant (${activeDatasetName})\n\n`;
+  text += `Hello! I am your AI Retail Copilot for **PromoAlign**. I analyze real Kaggle dataset values, customer segment affinities, regional demand signals, inventory stock levels, and margin floors.\n\n`;
+  text += `**Questions you can ask me:**\n`;
+  text += `- *"What is the total sales in Kaggle UCI dataset?"*\n`;
+  text += `- *"Show top products in the dataset"* or *"Which country has top sales?"*\n`;
+  text += `- *"Which promos have stockout risk?"*\n`;
+  text += `- *"What is our projected campaign revenue lift?"*\n`;
+  text += `- *"Approve all healthy promotions"*\n`;
 
   return {
     text,
     type: 'GENERAL_ADVISORY',
     actions: [
+      { label: '📊 Kaggle Dataset Analytics', command: 'ASK_QUERY', value: 'What is the total sales and top products in the dataset?' },
       { label: '🔴 Show Stockout Risks', command: 'FILTER_RISK', value: 'STOCKOUT_RISK' },
       { label: '📈 Summarize Campaign ROI', command: 'NAV_TAB', value: 'SUMMARY' },
-      { label: '⚡ Top Fit Score Promos', command: 'FILTER_MIN_SCORE', value: 75 },
       { label: '🟢 Approve Healthy Promos', command: 'APPROVE_HEALTHY' }
     ]
   };

@@ -273,6 +273,7 @@ export default function App() {
         onFilterRegion={(region) => handleNLSearch(region)}
         onBulkApproveHealthy={handleBulkApproveHealthy}
         onExportCSV={handleExportCSV}
+        onSelectDataset={handleSelectDataset}
       />
 
     </div>

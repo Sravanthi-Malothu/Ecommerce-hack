@@ -460,7 +460,8 @@ router.post('/chat', (req, res) => {
   const response = processChatMessage(message, persona, {
     recommendations: appState.recommendations,
     summary,
-    datasetName: appState.rawDataset.dataset_name
+    datasetName: appState.rawDataset.dataset_name,
+    kaggleStats: appState.rawDataset.kaggle_stats || null
   });
 
   res.json({

@@ -117,6 +117,12 @@ export default function ChatbotWidget({
       case 'EXPORT_CSV':
         if (onExportCSV) onExportCSV();
         break;
+      case 'SWITCH_DATASET':
+        if (onSelectDataset) onSelectDataset(action.value);
+        break;
+      case 'ASK_QUERY':
+        handleSendMessage(action.value);
+        break;
       default:
         break;
     }
