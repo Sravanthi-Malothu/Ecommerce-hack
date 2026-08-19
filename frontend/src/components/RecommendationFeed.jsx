@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from 'recharts';
 import RecommendationCard from './RecommendationCard';
+import ProductAssessmentModal from './ProductAssessmentModal';
 
 export default function RecommendationFeed({
   recommendations,
@@ -24,8 +25,10 @@ export default function RecommendationFeed({
   onDiscountChange,
   onAddNote,
   onBulkApproveHealthy,
-  onNLSearch
+  onNLSearch,
+  onInspectAssessment
 }) {
+  const [selectedAssessmentItem, setSelectedAssessmentItem] = useState(null);
   const [nlQuery, setNlQuery] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('ALL');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
@@ -400,9 +403,21 @@ export default function RecommendationFeed({
               onStatusChange={onStatusChange}
               onDiscountChange={onDiscountChange}
               onAddNote={onAddNote}
+              onInspectAssessment={(itm) => {
+                if (onInspectAssessment) onInspectAssessment(itm);
+                setSelectedAssessmentItem(itm);
+              }}
             />
           ))}
         </div>
+      )}
+
+      {/* Render Product Assessment Modal */}
+      {selectedAssessmentItem && (
+        <ProductAssessmentModal
+          item={selectedAssessmentItem}
+          onClose={() => setSelectedAssessmentItem(null)}
+        />
       )}
 
     </div>

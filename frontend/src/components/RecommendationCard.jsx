@@ -21,7 +21,8 @@ export default function RecommendationCard({
   item,
   onStatusChange,
   onDiscountChange,
-  onAddNote
+  onAddNote,
+  onInspectAssessment
 }) {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const [localDiscount, setLocalDiscount] = useState(item.discount_pct);
@@ -128,6 +129,16 @@ export default function RecommendationCard({
 
         {/* Fit Score & Status */}
         <div className="flex items-center gap-2">
+          {onInspectAssessment && (
+            <button
+              onClick={() => onInspectAssessment(item)}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-indigo-700 text-white shadow-xs hover:from-indigo-700 hover:to-indigo-800 transition-all active:scale-95"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              Inspect AI Assessment
+            </button>
+          )}
+
           {status === 'APPROVED' && (
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm">
               <CheckCircle2 className="w-3.5 h-3.5" />

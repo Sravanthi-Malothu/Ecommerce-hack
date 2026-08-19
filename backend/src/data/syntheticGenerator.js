@@ -59,6 +59,17 @@ export const CUSTOMER_SEGMENTS = [
 ];
 
 export const PRODUCTS = [
+  {
+    product_id: 'prod_coffee_roast',
+    product_name: 'Organic Dark Roast Gourmet Coffee',
+    category: 'Home Goods',
+    subcategory: 'Beverages & Pantry',
+    base_price: 150.0,
+    unit_cost: 100.0,
+    margin_pct: 0.333,
+    seasonality_tag: 'High Repeat Daily Demand',
+    avg_weekly_demand: 500
+  },
   // --- Footwear & Athletic Apparel ---
   {
     product_id: 'prod_running_shoes_apex',
