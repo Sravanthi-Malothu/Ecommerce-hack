@@ -3,6 +3,7 @@ import { processChatMessage } from '../engine/chatEngine.js';
 import { generateMonthlyPerformanceData } from '../engine/monthlyPerformanceTracker.js';
 import { generateDecisionHistoryData } from '../engine/decisionHistoryTracker.js';
 import { generateCrossProductBundlesData } from '../engine/crossProductEngine.js';
+import { runPredictiveMlAnalysis } from '../engine/predictiveMlEngine.js';
 import { v4 as uuidv4 } from 'uuid';
 import { getDatasetById } from '../engine/datasetParser.js';
 import { computePromotionMetrics } from '../engine/scoringEngine.js';
@@ -541,6 +542,20 @@ router.post('/chat', async (req, res) => {
     id: uuidv4(),
     timestamp: new Date().toISOString(),
     response
+  });
+});
+
+/**
+ * POST /api/ml/predict
+ * Executes 6 Predictive ML Algorithms for live interactive simulation
+ */
+router.post('/ml/predict', (req, res) => {
+  const inputs = req.body || {};
+  const mlResults = runPredictiveMlAnalysis(inputs);
+  res.json({
+    timestamp: new Date().toISOString(),
+    datasetName: appState.rawDataset.dataset_name,
+    results: mlResults
   });
 });
 

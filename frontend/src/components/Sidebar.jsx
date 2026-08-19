@@ -14,12 +14,14 @@ import {
   Tag,
   History,
   PackagePlus,
-  Layers
+  Layers,
+  Brain
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   const navItems = [
     { id: 'FEED', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'ML_PREDICTIVE', label: 'Predictive ML Engine', icon: Brain },
     { id: 'BUSINESS_TREE', label: 'Business Hierarchy', icon: Layers },
     { id: 'CROSS_PRODUCT_BUNDLES', label: 'Cross-Product Bundles', icon: PackagePlus },
     { id: 'DECISION_HISTORY', label: 'Decision History', icon: History },

@@ -8,6 +8,7 @@ import MonthlyPerformanceTrackerView from './components/MonthlyPerformanceTracke
 import DecisionHistoryTrackerView from './components/DecisionHistoryTrackerView';
 import CrossProductBundlesView from './components/CrossProductBundlesView';
 import BusinessArchitectureView from './components/BusinessArchitectureView';
+import PredictiveMlDashboardView from './components/PredictiveMlDashboardView';
 import ChatbotWidget from './components/ChatbotWidget';
 import ProductAssessmentModal from './components/ProductAssessmentModal';
 import UserProfileModal from './components/UserProfileModal';
@@ -282,6 +283,10 @@ export default function App() {
 
               {activeTab === 'BUSINESS_TREE' && (
                 <BusinessArchitectureView />
+              )}
+
+              {activeTab === 'ML_PREDICTIVE' && (
+                <PredictiveMlDashboardView />
               )}
 
               {activeTab === 'CROSS_PRODUCT_BUNDLES' && (
