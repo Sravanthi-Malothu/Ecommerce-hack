@@ -1,0 +1,18 @@
+{
+  "name": "promoalign-backend",
+  "version": "1.0.0",
+  "description": "PromoAlign Backend REST API, Scoring Engine, and Synthetic Data Generator",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node src/test/engineTest.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "uuid": "^10.0.0"
+  }
+}
