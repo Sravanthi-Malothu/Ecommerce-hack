@@ -25,7 +25,7 @@ export default function UserProfileModal({
   const [name, setName] = useState(userProfile?.name || 'Sravanthi');
   const [email, setEmail] = useState(userProfile?.email || 'sravanthi.malothu@promoalign.ai');
   const [regionFocus, setRegionFocus] = useState(userProfile?.regionFocus || 'ALL');
-  const [currency, setCurrency] = useState(userProfile?.currency || 'USD');
+  const [currency, setCurrency] = useState(userProfile?.currency || 'INR');
   const [stockoutAlert, setStockoutAlert] = useState(userProfile?.alerts?.stockout ?? true);
   const [marginAlert, setMarginAlert] = useState(userProfile?.alerts?.margin ?? true);
   const [fatigueAlert, setFatigueAlert] = useState(userProfile?.alerts?.fatigue ?? true);

@@ -29,7 +29,7 @@ export default function App() {
     email: 'sravanthi.malothu@promoalign.ai',
     role: 'Admin / Category Lead',
     regionFocus: 'ALL',
-    currency: 'USD',
+    currency: 'INR',
     alerts: {
       stockout: true,
       margin: true,

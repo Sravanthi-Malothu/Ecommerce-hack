@@ -143,7 +143,7 @@ export default function MonthlyPerformanceTrackerView() {
             {highestProfitPromo?.productName}
           </h4>
           <div className="text-2xl font-black text-emerald-700 mt-1">
-            +${highestProfitPromo?.profitGenerated.toLocaleString()}
+            +₹{highestProfitPromo?.profitGenerated.toLocaleString('en-IN')}
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
             Profit Margin: <strong className="text-slate-900">{highestProfitPromo?.profitMarginPct}%</strong> ({highestProfitPromo?.discountOffered})
@@ -168,7 +168,7 @@ export default function MonthlyPerformanceTrackerView() {
             {highestRoiPromo?.promotionRoiPct}% ROI
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
-            Profit Generated: <strong className="text-slate-900">${highestRoiPromo?.profitGenerated.toLocaleString()}</strong>
+            Profit Generated: <strong className="text-slate-900">₹{highestRoiPromo?.profitGenerated.toLocaleString('en-IN')}</strong>
           </p>
         </div>
 
@@ -190,7 +190,7 @@ export default function MonthlyPerformanceTrackerView() {
             +{highestRevenueUpliftPromo?.revenueUpliftPct}% Rev Lift
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
-            Promoted Rev: <strong className="text-slate-900">${highestRevenueUpliftPromo?.promotedRevenueGenerated.toLocaleString()}</strong>
+            Promoted Rev: <strong className="text-slate-900">₹{highestRevenueUpliftPromo?.promotedRevenueGenerated.toLocaleString('en-IN')}</strong>
           </p>
         </div>
 
@@ -234,8 +234,8 @@ export default function MonthlyPerformanceTrackerView() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#64748B' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#64748B' }} formatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-              <Tooltip formatter={(val) => `$${Number(val).toLocaleString()}`} contentStyle={{ backgroundColor: '#1E293B', color: '#FFF', borderRadius: '12px', fontSize: '12px' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#64748B' }} formatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+              <Tooltip formatter={(val) => `₹${Number(val).toLocaleString('en-IN')}`} contentStyle={{ backgroundColor: '#1E293B', color: '#FFF', borderRadius: '12px', fontSize: '12px' }} />
               <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
               <Bar dataKey="baselineRevenue" name="Baseline Revenue (Unpromoted)" fill="#94A3B8" radius={[4, 4, 0, 0]} />
               <Bar dataKey="promotedRevenue" name="Promoted Revenue Generated" fill="#4F46E5" radius={[4, 4, 0, 0]} />
@@ -319,9 +319,9 @@ export default function MonthlyPerformanceTrackerView() {
                     <span className="font-bold text-slate-900">{r.promotedUnitsSold.toLocaleString()}</span>
                     <span className="text-slate-400 text-[11px] ml-1">({r.baselineUnits})</span>
                   </td>
-                  <td className="py-3 px-3 font-bold text-slate-900">${r.promotedRevenueGenerated.toLocaleString()}</td>
-                  <td className="py-3 px-3 text-slate-600">${r.promotionCostTotal.toLocaleString()}</td>
-                  <td className="py-3 px-3 font-black text-emerald-600">+${r.profitGenerated.toLocaleString()}</td>
+                  <td className="py-3 px-3 font-bold text-slate-900">₹{r.promotedRevenueGenerated.toLocaleString('en-IN')}</td>
+                  <td className="py-3 px-3 text-slate-600">₹{r.promotionCostTotal.toLocaleString('en-IN')}</td>
+                  <td className="py-3 px-3 font-black text-emerald-600">+₹{r.profitGenerated.toLocaleString('en-IN')}</td>
                   <td className="py-3 px-3 font-bold text-slate-800">{r.profitMarginPct}%</td>
                   <td className="py-3 px-3">
                     <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-100">

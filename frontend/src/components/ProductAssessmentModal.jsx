@@ -112,12 +112,12 @@ export default function ProductAssessmentModal({ item, onClose }) {
 
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <span className="text-[10px] text-slate-400 font-medium">Cost</span>
-                <p className="text-xs font-bold text-slate-900 mt-0.5">₹{costPrice} (${costPrice})</p>
+                <p className="text-xs font-bold text-slate-900 mt-0.5">₹{costPrice.toLocaleString('en-IN')}</p>
               </div>
 
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <span className="text-[10px] text-slate-400 font-medium">Price</span>
-                <p className="text-xs font-bold text-slate-900 mt-0.5">₹{basePrice} (${basePrice})</p>
+                <p className="text-xs font-bold text-slate-900 mt-0.5">₹{basePrice.toLocaleString('en-IN')}</p>
               </div>
 
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">

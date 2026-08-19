@@ -123,7 +123,7 @@ export default function RecommendationCard({
 
           <h3 className="text-base font-bold text-slate-900 tracking-tight flex items-center gap-2">
             {product_name}
-            <span className="text-xs font-normal text-slate-500">(${base_price})</span>
+            <span className="text-xs font-normal text-slate-500">(₹{base_price})</span>
           </h3>
         </div>
 
@@ -227,7 +227,7 @@ export default function RecommendationCard({
           <div className="text-sm font-bold text-slate-900 flex items-center gap-1">
             {localDiscount}% OFF
             <span className="text-[11px] font-normal text-slate-500">
-              (${(base_price * (1 - localDiscount / 100)).toFixed(2)})
+              (₹{(base_price * (1 - localDiscount / 100)).toFixed(2)})
             </span>
           </div>
         </div>
@@ -235,7 +235,7 @@ export default function RecommendationCard({
         <div>
           <div className="text-[11px] font-medium text-slate-500">Projected Rev Lift</div>
           <div className="text-sm font-bold text-emerald-600">
-            +${metrics.projectedRevenue.toLocaleString()}
+            +₹{metrics.projectedRevenue.toLocaleString('en-IN')}
           </div>
         </div>
 
@@ -248,7 +248,7 @@ export default function RecommendationCard({
           >
             {(metrics.marginPctAfterDiscount * 100).toFixed(1)}%
             <span className="text-[10px] text-slate-500 ml-1">
-              (${metrics.projectedMarginDollars.toLocaleString()})
+              (₹{metrics.projectedMarginDollars.toLocaleString('en-IN')})
             </span>
           </div>
         </div>

@@ -72,8 +72,8 @@ export function generateExplanation(segment, product, region, metrics, constrain
   const slicedSignals = topSignals.slice(0, 3);
 
   // 2. Construct Deeply Explainable Plain-Language Business Rationale
-  const revLiftFormatted = `$${(metrics.projectedRevenue || 0).toLocaleString()}`;
-  const marginDollarsFormatted = `$${(metrics.projectedMarginDollars || 0).toLocaleString()}`;
+  const revLiftFormatted = `₹${(metrics.projectedRevenue || 0).toLocaleString('en-IN')}`;
+  const marginDollarsFormatted = `₹${(metrics.projectedMarginDollars || 0).toLocaleString('en-IN')}`;
   const marginPct = (metrics.signals.marginPctAfterDiscount || 0).toFixed(1);
   const demandUnits = metrics.projectedUnits || 0;
   const stockUnits = metrics.stockQty || 0;
@@ -87,7 +87,7 @@ export function generateExplanation(segment, product, region, metrics, constrain
   if (constraintEval.riskLevel === 'STOCKOUT_RISK') {
     summaryRationale = `🔴 Stockout Warning for ${product.product_name} in ${region}: High campaign demand from ${segment.segment_name} (${demandUnits} units) will deplete available store inventory (${stockUnits} units remaining). Recommend reducing discount depth by 5-10% or reallocating store stock to prevent fulfillment failure.`;
   } else if (constraintEval.riskLevel === 'MARGIN_RISK') {
-    summaryRationale = `🟠 Margin Floor Violation for ${product.product_name}: Proposed discount depth reduces post-promo margin to ${marginPct}%, dropping below our mandatory 15% margin floor. Recommend capping discount at 15% to preserve category profitability.`;
+    summaryRationale = `🟠 Margin Floor Violation for ${product.product_name}: Proposed discount depth reduces post-promo margin to ${marginPct}%, dropping below our mandatory 15% margin floor. Recommend capping discount at 15%.`;
   } else if (constraintEval.riskLevel === 'FATIGUE_WARNING') {
     summaryRationale = `🟡 Promo Fatigue Notice for ${segment.segment_name}: Segment received a promotional campaign ${segment.last_promo_days_ago} days ago. While customer affinity for ${product.category} is high, recommend delaying launch by 5 days to maximize conversion rate.`;
   }

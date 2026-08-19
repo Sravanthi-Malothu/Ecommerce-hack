@@ -155,7 +155,7 @@ export default function DecisionHistoryTrackerView() {
             <DollarSign className="w-4 h-4 text-slate-700" />
           </div>
           <div className="text-2xl font-black text-slate-900">
-            ${stats.totalActualRevenue.toLocaleString()}
+            ₹{stats.totalActualRevenue.toLocaleString('en-IN')}
           </div>
           <p className="text-[11px] text-slate-500 mt-1">
             Across {stats.approvedCount} approved campaigns
@@ -169,7 +169,7 @@ export default function DecisionHistoryTrackerView() {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
             <BarChart3 className="w-4 h-4 text-indigo-600" />
-            Predicted vs. Actual Revenue Audit Comparison ($)
+            Predicted vs. Actual Revenue Audit Comparison (₹)
           </h3>
           <span className="text-xs font-medium text-slate-400">Post-Launch Performance Audit</span>
         </div>
@@ -179,8 +179,8 @@ export default function DecisionHistoryTrackerView() {
             <BarChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
               <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#64748B' }} />
-              <YAxis tick={{ fontSize: 11, fill: '#64748B' }} formatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-              <Tooltip formatter={(val) => `$${Number(val).toLocaleString()}`} contentStyle={{ backgroundColor: '#1E293B', color: '#FFF', borderRadius: '12px', fontSize: '12px' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#64748B' }} formatter={(v) => `₹${(v / 1000).toFixed(0)}k`} />
+              <Tooltip formatter={(val) => `₹${Number(val).toLocaleString('en-IN')}`} contentStyle={{ backgroundColor: '#1E293B', color: '#FFF', borderRadius: '12px', fontSize: '12px' }} />
               <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
               <Bar dataKey="Predicted" name="Predicted Revenue Lift" fill="#94A3B8" radius={[4, 4, 0, 0]} />
               <Bar dataKey="Actual" name="Actual Revenue Generated" fill="#4F46E5" radius={[4, 4, 0, 0]} />
@@ -274,9 +274,9 @@ export default function DecisionHistoryTrackerView() {
 
                   {/* Predicted vs Actual Rev */}
                   <td className="py-3.5 px-3">
-                    <div className="font-bold text-slate-900">${d.actualRevenue.toLocaleString()}</div>
+                    <div className="font-bold text-slate-900">₹{d.actualRevenue.toLocaleString('en-IN')}</div>
                     <div className="text-[11px] text-slate-500">
-                      Pred: ${d.predictedRevenue.toLocaleString()} (
+                      Pred: ₹{d.predictedRevenue.toLocaleString('en-IN')} (
                       <span className={d.revenueVarianceDollars >= 0 ? 'text-emerald-600 font-bold' : 'text-rose-600 font-bold'}>
                         {d.revenueVarianceDollars >= 0 ? `+${d.revenueVariancePct}%` : `${d.revenueVariancePct}%`}
                       </span>

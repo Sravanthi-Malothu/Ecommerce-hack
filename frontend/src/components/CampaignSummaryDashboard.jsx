@@ -96,7 +96,7 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV, onStatu
           </div>
           <div className="text-xs font-medium text-slate-500 mb-1">Projected Revenue Lift</div>
           <div className="text-2xl font-black text-slate-900 tracking-tight">
-            ${totalIncrementalRevenue.toLocaleString()}
+            ₹{totalIncrementalRevenue.toLocaleString('en-IN')}
           </div>
           <div className="mt-2 text-[11px] text-emerald-600 font-bold flex items-center gap-1">
             <span>+24.8% vs Baseline Unoptimized Plan</span>
@@ -109,7 +109,7 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV, onStatu
           </div>
           <div className="text-xs font-medium text-slate-500 mb-1">Margin Dollars Preserved</div>
           <div className="text-2xl font-black text-emerald-600 tracking-tight">
-            ${totalMarginDollars.toLocaleString()}
+            ₹{totalMarginDollars.toLocaleString('en-IN')}
           </div>
           <div className="mt-2 text-[11px] text-slate-600 font-semibold">
             Avg Post-Discount Margin: <strong className="text-indigo-700">{avgMarginPct}%</strong>
@@ -172,13 +172,13 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV, onStatu
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={categoryBreakdown}>
                   <XAxis dataKey="category" stroke="#94A3B8" fontSize={11} />
-                  <YAxis stroke="#94A3B8" fontSize={11} tickFormatter={(v) => `$${v / 1000}k`} />
+                  <YAxis stroke="#94A3B8" fontSize={11} tickFormatter={(v) => `₹${v / 1000}k`} />
                   <Tooltip
                     contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#E2E8F0', borderRadius: '12px', fontSize: '12px' }}
-                    formatter={(val) => [`$${val.toLocaleString()}`, 'Value']}
+                    formatter={(val) => [`₹${val.toLocaleString('en-IN')}`, 'Value']}
                   />
                   <Bar dataKey="revenue" name="Revenue Lift" fill="#4F46E5" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="margin" name="Margin $" fill="#10B981" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="margin" name="Margin ₹" fill="#10B981" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -268,7 +268,7 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV, onStatu
                       </span>
                     </td>
                     <td className="py-3 px-3 font-bold text-slate-900">
-                      +${item.metrics.projectedRevenue.toLocaleString()}
+                      +₹{item.metrics.projectedRevenue.toLocaleString('en-IN')}
                     </td>
                     <td className="py-3 px-3 text-slate-700 font-medium">
                       {(item.metrics.marginPctAfterDiscount * 100).toFixed(1)}%

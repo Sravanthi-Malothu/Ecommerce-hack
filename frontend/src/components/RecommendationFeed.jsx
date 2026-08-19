@@ -125,7 +125,7 @@ export default function RecommendationFeed({
               <div>
                 <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Total Revenue Lift</div>
                 <div className="text-lg font-black text-slate-900 mt-0.5">
-                  +${(summary?.totalIncrementalRevenue || 0).toLocaleString()}
+                  +₹{(summary?.totalIncrementalRevenue || 0).toLocaleString('en-IN')}
                 </div>
               </div>
               <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">
@@ -194,13 +194,13 @@ export default function RecommendationFeed({
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(val) => `$${Number(val).toLocaleString()}`}
+                  formatter={(val) => `₹${Number(val).toLocaleString('en-IN')}`}
                   contentStyle={{ backgroundColor: '#1E293B', color: '#FFF', borderRadius: '12px', border: 'none', fontSize: '12px' }}
                 />
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-base font-black text-slate-900">${((summary?.totalMarginDollars || 420000) / 1000).toFixed(0)}k</span>
+              <span className="text-base font-black text-slate-900">₹{((summary?.totalMarginDollars || 420000) / 1000).toFixed(0)}k</span>
               <span className="text-[9px] font-semibold text-slate-400 uppercase">Margin</span>
             </div>
           </div>
@@ -378,7 +378,7 @@ export default function RecommendationFeed({
                 </div>
 
                 <span className="px-3 py-1 rounded-xl text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                  {groupBy === 'PRODUCT' ? `Base Price: $${groupItems[0]?.base_price || 150}` : `Group: ${groupTitle}`}
+                  {groupBy === 'PRODUCT' ? `Base Price: ₹${groupItems[0]?.base_price || 150}` : `Group: ${groupTitle}`}
                 </span>
               </div>
 

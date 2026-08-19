@@ -39,15 +39,15 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
       if (kaggleStats.top_countries && kaggleStats.top_countries.length > 0) {
         text += `\n**Top Customer Countries by Sales Volume**:\n`;
         kaggleStats.top_countries.forEach((c, idx) => {
-          text += `${idx + 1}. **${c.country}**: $${c.sales.toLocaleString()}\n`;
+          text += `${idx + 1}. **${c.country}**: ₹${c.sales.toLocaleString('en-IN')}\n`;
         });
       }
 
       // Top Products Breakdown if available
       if (kaggleStats.top_products && kaggleStats.top_products.length > 0) {
-        text += `\n**Top Best-Selling Kaggle Products**:\n`;
-        kaggleStats.top_products.forEach((p, idx) => {
-          text += `${idx + 1}. **${p.name}** — $${p.sales.toLocaleString()} (${p.qty} units)\n`;
+        text += `\n**Top Products in Dataset**:\n`;
+        kaggleStats.top_products.slice(0, 4).forEach((p, idx) => {
+          text += `${idx + 1}. **${p.name}** — ₹${p.sales.toLocaleString('en-IN')} (${p.qty} units)\n`;
         });
       }
 
@@ -55,7 +55,7 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
       if (kaggleStats.top_stores && kaggleStats.top_stores.length > 0) {
         text += `\n**Top Performing Rossmann Store Clusters**:\n`;
         kaggleStats.top_stores.forEach((s, idx) => {
-          text += `${idx + 1}. **${s.store}**: $${s.sales.toLocaleString()}\n`;
+          text += `${idx + 1}. **${s.store}**: ₹${s.sales.toLocaleString('en-IN')}\n`;
         });
       }
     } else {
@@ -104,7 +104,7 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
     const marginItems = recommendations.filter(r => r.constraintEval.riskLevel === 'MARGIN_RISK');
 
     let text = `### 🟠 Margin Floor & Profitability Analysis (${activeDatasetName})\n\n`;
-    text += `The active campaign plan maintains an average post-discount margin of **${summary.avgMarginPct || 41.5}%**, preserving **$${(summary.totalMarginDollars || 0).toLocaleString()}** in margin dollars.\n\n`;
+    text += `The active campaign plan maintains an average post-discount margin of **${summary.avgMarginPct || 41.5}%**, preserving **₹${(summary.totalMarginDollars || 0).toLocaleString('en-IN')}** in margin dollars.\n\n`;
     if (marginItems.length > 0) {
       text += `⚠️ **${marginItems.length} candidate(s)** drop below our strict 15% post-discount margin floor:\n`;
       marginItems.slice(0, 3).forEach(item => {
@@ -129,8 +129,8 @@ export function processChatMessage(userMessage, persona = 'MARKETING', appState 
   if (msg.includes('summary') || msg.includes('roi') || msg.includes('revenue') || msg.includes('readiness') || msg.includes('kpi')) {
     let text = `### 📊 Campaign Readiness & Business Impact Summary\n\n`;
     text += `- **Dataset Source**: ${activeDatasetName}\n`;
-    text += `- **Projected Incremental Revenue Lift**: **+$${(summary.totalIncrementalRevenue || 0).toLocaleString()}**\n`;
-    text += `- **Total Margin Dollars Preserved**: **$${(summary.totalMarginDollars || 0).toLocaleString()}** (Avg Margin: **${summary.avgMarginPct || 0}%**)\n`;
+    text += `- **Projected Incremental Revenue Lift**: **+₹${(summary.totalIncrementalRevenue || 0).toLocaleString('en-IN')}**\n`;
+    text += `- **Total Margin Dollars Preserved**: **₹${(summary.totalMarginDollars || 0).toLocaleString('en-IN')}** (Avg Margin: **${summary.avgMarginPct || 0}%**)\n`;
     text += `- **Campaign Operational Readiness**: **${summary.readinessScore || 88}%**\n`;
     text += `- **Approved Campaigns**: **${summary.approvedCount || 0}** of ${summary.totalRecommendationsCount || 0} total candidates\n\n`;
     text += `*Ready for cross-functional sign-off between Marketing, Merchandising, and Store Ops.*`;
