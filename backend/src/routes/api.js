@@ -4,6 +4,7 @@ import { generateMonthlyPerformanceData } from '../engine/monthlyPerformanceTrac
 import { generateDecisionHistoryData } from '../engine/decisionHistoryTracker.js';
 import { generateCrossProductBundlesData } from '../engine/crossProductEngine.js';
 import { runPredictiveMlAnalysis } from '../engine/predictiveMlEngine.js';
+import { runPythonMlPredictiveEngine } from '../engine/pythonMlBridge.js';
 import { v4 as uuidv4 } from 'uuid';
 import { getDatasetById } from '../engine/datasetParser.js';
 import { computePromotionMetrics } from '../engine/scoringEngine.js';
@@ -547,11 +548,11 @@ router.post('/chat', async (req, res) => {
 
 /**
  * POST /api/ml/predict
- * Executes 6 Predictive ML Algorithms for live interactive simulation
+ * Executes 6 Predictive ML Algorithms in Python via Python ML Bridge
  */
-router.post('/ml/predict', (req, res) => {
+router.post('/ml/predict', async (req, res) => {
   const inputs = req.body || {};
-  const mlResults = runPredictiveMlAnalysis(inputs);
+  const mlResults = await runPythonMlPredictiveEngine(inputs);
   res.json({
     timestamp: new Date().toISOString(),
     datasetName: appState.rawDataset.dataset_name,
