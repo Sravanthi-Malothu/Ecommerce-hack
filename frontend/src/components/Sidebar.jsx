@@ -13,12 +13,14 @@ import {
   FolderTree,
   Tag,
   History,
-  PackagePlus
+  PackagePlus,
+  Layers
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   const navItems = [
     { id: 'FEED', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'BUSINESS_TREE', label: 'Business Hierarchy', icon: Layers },
     { id: 'CROSS_PRODUCT_BUNDLES', label: 'Cross-Product Bundles', icon: PackagePlus },
     { id: 'DECISION_HISTORY', label: 'Decision History', icon: History },
     { id: 'MONTHLY_PERFORMANCE', label: 'Monthly Profit Tracker', icon: BarChart3 },

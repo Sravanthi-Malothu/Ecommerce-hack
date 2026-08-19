@@ -1,151 +1,151 @@
 Transaction_ID,Customer_ID,Customer_Segment,Product_Category,Product_Name,Base_Price,Margin_Pct,Discount_Applied_Pct,Store_Region,Sales_Volume,Customer_Affinity_Score
-TX_VAR_1001,CUST_2001,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",16,0.71
-TX_VAR_1002,CUST_2002,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",37,0.78
-TX_VAR_1003,CUST_2003,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",46,0.91
-TX_VAR_1004,CUST_2004,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",17,0.9
-TX_VAR_1005,CUST_2005,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",27,0.74
-TX_VAR_1006,CUST_2006,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",38,0.79
-TX_VAR_1007,CUST_2007,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",33,0.92
-TX_VAR_1008,CUST_2008,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",23,0.8
-TX_VAR_1009,CUST_2009,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",25,0.84
-TX_VAR_1010,CUST_2010,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",20,0.87
-TX_VAR_1011,CUST_2011,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",31,0.81
-TX_VAR_1012,CUST_2012,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",30,0.93
-TX_VAR_1013,CUST_2013,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",34,0.88
-TX_VAR_1014,CUST_2014,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",42,0.98
-TX_VAR_1015,CUST_2015,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",42,0.93
-TX_VAR_1016,CUST_2016,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",13,0.7
-TX_VAR_1017,CUST_2017,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",24,0.8
-TX_VAR_1018,CUST_2018,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",14,0.85
-TX_VAR_1019,CUST_2019,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",18,0.79
-TX_VAR_1020,CUST_2020,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",15,0.9
-TX_VAR_1021,CUST_2021,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",35,0.81
-TX_VAR_1022,CUST_2022,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",49,0.8
-TX_VAR_1023,CUST_2023,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",23,0.72
-TX_VAR_1024,CUST_2024,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",14,0.72
-TX_VAR_1025,CUST_2000,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",44,0.75
-TX_VAR_1026,CUST_2001,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",28,0.75
-TX_VAR_1027,CUST_2002,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",11,0.8
-TX_VAR_1028,CUST_2003,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",33,0.89
-TX_VAR_1029,CUST_2004,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",21,0.76
-TX_VAR_1030,CUST_2005,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",32,0.97
-TX_VAR_1031,CUST_2006,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",30,0.8
-TX_VAR_1032,CUST_2007,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",38,0.77
-TX_VAR_1033,CUST_2008,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",27,0.94
-TX_VAR_1034,CUST_2009,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",23,0.72
-TX_VAR_1035,CUST_2010,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",16,0.72
-TX_VAR_1036,CUST_2011,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",20,0.72
-TX_VAR_1037,CUST_2012,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",21,0.94
-TX_VAR_1038,CUST_2013,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",42,0.85
-TX_VAR_1039,CUST_2014,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",45,0.81
-TX_VAR_1040,CUST_2015,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",42,0.78
-TX_VAR_1041,CUST_2016,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",29,0.82
-TX_VAR_1042,CUST_2017,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",12,0.96
-TX_VAR_1043,CUST_2018,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",12,0.82
-TX_VAR_1044,CUST_2019,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",35,0.94
-TX_VAR_1045,CUST_2020,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",48,0.72
-TX_VAR_1046,CUST_2021,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",25,0.9
-TX_VAR_1047,CUST_2022,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",49,0.93
-TX_VAR_1048,CUST_2023,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",34,0.84
-TX_VAR_1049,CUST_2024,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",14,0.85
-TX_VAR_1050,CUST_2000,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",16,0.91
-TX_VAR_1051,CUST_2001,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",31,0.94
-TX_VAR_1052,CUST_2002,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",31,0.8
-TX_VAR_1053,CUST_2003,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",49,0.75
-TX_VAR_1054,CUST_2004,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",31,0.73
-TX_VAR_1055,CUST_2005,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",48,0.98
-TX_VAR_1056,CUST_2006,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",24,0.93
-TX_VAR_1057,CUST_2007,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",41,0.98
-TX_VAR_1058,CUST_2008,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",38,0.87
-TX_VAR_1059,CUST_2009,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",49,0.89
-TX_VAR_1060,CUST_2010,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",22,0.91
-TX_VAR_1061,CUST_2011,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",16,0.81
-TX_VAR_1062,CUST_2012,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",29,0.85
-TX_VAR_1063,CUST_2013,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",33,0.77
-TX_VAR_1064,CUST_2014,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",46,0.71
-TX_VAR_1065,CUST_2015,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",15,0.9
-TX_VAR_1066,CUST_2016,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",13,0.72
-TX_VAR_1067,CUST_2017,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",19,0.76
-TX_VAR_1068,CUST_2018,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",23,0.88
-TX_VAR_1069,CUST_2019,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",49,0.73
-TX_VAR_1070,CUST_2020,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",48,0.88
-TX_VAR_1071,CUST_2021,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",38,0.71
-TX_VAR_1072,CUST_2022,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",25,0.95
-TX_VAR_1073,CUST_2023,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",20,0.82
-TX_VAR_1074,CUST_2024,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",13,0.85
-TX_VAR_1075,CUST_2000,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",21,0.97
-TX_VAR_1076,CUST_2001,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",49,0.83
-TX_VAR_1077,CUST_2002,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",45,0.9
-TX_VAR_1078,CUST_2003,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",49,0.78
-TX_VAR_1079,CUST_2004,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",40,0.71
-TX_VAR_1080,CUST_2005,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",10,0.98
-TX_VAR_1081,CUST_2006,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",33,0.73
-TX_VAR_1082,CUST_2007,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",25,0.85
-TX_VAR_1083,CUST_2008,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",42,0.74
-TX_VAR_1084,CUST_2009,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",10,0.8
-TX_VAR_1085,CUST_2010,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",32,0.96
-TX_VAR_1086,CUST_2011,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",46,0.85
-TX_VAR_1087,CUST_2012,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",34,0.72
-TX_VAR_1088,CUST_2013,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",31,0.89
-TX_VAR_1089,CUST_2014,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",44,0.81
-TX_VAR_1090,CUST_2015,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",31,0.74
-TX_VAR_1091,CUST_2016,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",17,0.95
-TX_VAR_1092,CUST_2017,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",19,0.89
-TX_VAR_1093,CUST_2018,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",26,0.93
-TX_VAR_1094,CUST_2019,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",45,0.86
-TX_VAR_1095,CUST_2020,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",30,0.91
-TX_VAR_1096,CUST_2021,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",21,0.81
-TX_VAR_1097,CUST_2022,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",37,0.94
-TX_VAR_1098,CUST_2023,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",24,0.72
-TX_VAR_1099,CUST_2024,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",35,0.73
-TX_VAR_1100,CUST_2000,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",39,0.74
-TX_VAR_1101,CUST_2001,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",39,0.85
-TX_VAR_1102,CUST_2002,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",10,0.7
-TX_VAR_1103,CUST_2003,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",14,0.91
-TX_VAR_1104,CUST_2004,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",10,0.84
-TX_VAR_1105,CUST_2005,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",44,0.91
-TX_VAR_1106,CUST_2006,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",31,0.85
-TX_VAR_1107,CUST_2007,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",41,0.81
-TX_VAR_1108,CUST_2008,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",18,0.95
-TX_VAR_1109,CUST_2009,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",40,0.74
-TX_VAR_1110,CUST_2010,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",38,0.91
-TX_VAR_1111,CUST_2011,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",22,0.91
-TX_VAR_1112,CUST_2012,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",42,0.78
-TX_VAR_1113,CUST_2013,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",16,0.76
-TX_VAR_1114,CUST_2014,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",20,0.92
-TX_VAR_1115,CUST_2015,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",18,0.95
-TX_VAR_1116,CUST_2016,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",10,0.72
-TX_VAR_1117,CUST_2017,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",34,0.88
-TX_VAR_1118,CUST_2018,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",15,0.85
-TX_VAR_1119,CUST_2019,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",34,0.89
-TX_VAR_1120,CUST_2020,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",39,0.72
-TX_VAR_1121,CUST_2021,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",24,0.74
-TX_VAR_1122,CUST_2022,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",29,0.9
-TX_VAR_1123,CUST_2023,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",25,0.76
-TX_VAR_1124,CUST_2024,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",27,0.74
-TX_VAR_1125,CUST_2000,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",14,0.86
-TX_VAR_1126,CUST_2001,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",24,0.94
-TX_VAR_1127,CUST_2002,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",48,0.93
-TX_VAR_1128,CUST_2003,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",32,0.8
-TX_VAR_1129,CUST_2004,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",41,0.8
-TX_VAR_1130,CUST_2005,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",40,0.7
-TX_VAR_1131,CUST_2006,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",30,0.86
-TX_VAR_1132,CUST_2007,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",24,0.76
-TX_VAR_1133,CUST_2008,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",21,0.78
-TX_VAR_1134,CUST_2009,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",30,0.72
-TX_VAR_1135,CUST_2010,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",49,0.77
-TX_VAR_1136,CUST_2011,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",48,0.85
-TX_VAR_1137,CUST_2012,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",22,0.83
-TX_VAR_1138,CUST_2013,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",33,0.73
-TX_VAR_1139,CUST_2014,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",28,0.8
-TX_VAR_1140,CUST_2015,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",40,0.86
-TX_VAR_1141,CUST_2016,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",36,0.73
-TX_VAR_1142,CUST_2017,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",44,0.98
-TX_VAR_1143,CUST_2018,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",24,0.78
-TX_VAR_1144,CUST_2019,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",44,0.87
-TX_VAR_1145,CUST_2020,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",28,0.83
-TX_VAR_1146,CUST_2021,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",16,0.72
-TX_VAR_1147,CUST_2022,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",46,0.82
-TX_VAR_1148,CUST_2023,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",42,0.8
-TX_VAR_1149,CUST_2024,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",21,0.89
-TX_VAR_1150,CUST_2000,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",22,0.95
+TX_VAR_1001,CUST_2001,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",11,0.87
+TX_VAR_1002,CUST_2002,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",49,0.76
+TX_VAR_1003,CUST_2003,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",41,0.76
+TX_VAR_1004,CUST_2004,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",22,0.95
+TX_VAR_1005,CUST_2005,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",48,0.78
+TX_VAR_1006,CUST_2006,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",22,0.71
+TX_VAR_1007,CUST_2007,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",44,0.73
+TX_VAR_1008,CUST_2008,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",32,0.7
+TX_VAR_1009,CUST_2009,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",40,0.7
+TX_VAR_1010,CUST_2010,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",15,0.8
+TX_VAR_1011,CUST_2011,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",11,0.79
+TX_VAR_1012,CUST_2012,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",29,0.82
+TX_VAR_1013,CUST_2013,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",27,0.98
+TX_VAR_1014,CUST_2014,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",35,0.85
+TX_VAR_1015,CUST_2015,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",33,0.82
+TX_VAR_1016,CUST_2016,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",27,0.75
+TX_VAR_1017,CUST_2017,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",30,0.76
+TX_VAR_1018,CUST_2018,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",18,0.71
+TX_VAR_1019,CUST_2019,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",45,0.85
+TX_VAR_1020,CUST_2020,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",11,0.89
+TX_VAR_1021,CUST_2021,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",47,0.92
+TX_VAR_1022,CUST_2022,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",38,0.72
+TX_VAR_1023,CUST_2023,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",27,0.89
+TX_VAR_1024,CUST_2024,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",31,0.73
+TX_VAR_1025,CUST_2000,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",26,0.79
+TX_VAR_1026,CUST_2001,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",38,0.72
+TX_VAR_1027,CUST_2002,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",20,0.9
+TX_VAR_1028,CUST_2003,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",37,0.8
+TX_VAR_1029,CUST_2004,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",19,0.72
+TX_VAR_1030,CUST_2005,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",14,0.89
+TX_VAR_1031,CUST_2006,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",39,0.76
+TX_VAR_1032,CUST_2007,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",17,0.7
+TX_VAR_1033,CUST_2008,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",36,0.82
+TX_VAR_1034,CUST_2009,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",49,0.75
+TX_VAR_1035,CUST_2010,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",42,0.73
+TX_VAR_1036,CUST_2011,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",23,0.73
+TX_VAR_1037,CUST_2012,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",46,0.81
+TX_VAR_1038,CUST_2013,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",38,0.81
+TX_VAR_1039,CUST_2014,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",39,0.71
+TX_VAR_1040,CUST_2015,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",18,0.74
+TX_VAR_1041,CUST_2016,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",20,0.83
+TX_VAR_1042,CUST_2017,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",19,0.71
+TX_VAR_1043,CUST_2018,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",29,0.97
+TX_VAR_1044,CUST_2019,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",15,0.94
+TX_VAR_1045,CUST_2020,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",37,0.85
+TX_VAR_1046,CUST_2021,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",40,0.89
+TX_VAR_1047,CUST_2022,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",20,0.74
+TX_VAR_1048,CUST_2023,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",41,0.77
+TX_VAR_1049,CUST_2024,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",43,0.87
+TX_VAR_1050,CUST_2000,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",33,0.94
+TX_VAR_1051,CUST_2001,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",35,0.96
+TX_VAR_1052,CUST_2002,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",28,0.88
+TX_VAR_1053,CUST_2003,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",32,0.73
+TX_VAR_1054,CUST_2004,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",10,0.81
+TX_VAR_1055,CUST_2005,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",28,0.84
+TX_VAR_1056,CUST_2006,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",34,0.84
+TX_VAR_1057,CUST_2007,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",40,0.94
+TX_VAR_1058,CUST_2008,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",34,0.79
+TX_VAR_1059,CUST_2009,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",22,0.9
+TX_VAR_1060,CUST_2010,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",21,0.92
+TX_VAR_1061,CUST_2011,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",42,0.81
+TX_VAR_1062,CUST_2012,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",32,0.83
+TX_VAR_1063,CUST_2013,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",38,0.87
+TX_VAR_1064,CUST_2014,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",40,0.96
+TX_VAR_1065,CUST_2015,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",44,0.74
+TX_VAR_1066,CUST_2016,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",41,0.87
+TX_VAR_1067,CUST_2017,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",12,0.97
+TX_VAR_1068,CUST_2018,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",43,0.72
+TX_VAR_1069,CUST_2019,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",12,0.88
+TX_VAR_1070,CUST_2020,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",40,0.9
+TX_VAR_1071,CUST_2021,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",11,0.74
+TX_VAR_1072,CUST_2022,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",37,0.71
+TX_VAR_1073,CUST_2023,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",34,0.7
+TX_VAR_1074,CUST_2024,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",31,0.87
+TX_VAR_1075,CUST_2000,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",14,0.82
+TX_VAR_1076,CUST_2001,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",33,0.81
+TX_VAR_1077,CUST_2002,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",22,0.72
+TX_VAR_1078,CUST_2003,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",17,0.7
+TX_VAR_1079,CUST_2004,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",28,0.86
+TX_VAR_1080,CUST_2005,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",43,0.87
+TX_VAR_1081,CUST_2006,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",46,0.77
+TX_VAR_1082,CUST_2007,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",11,0.78
+TX_VAR_1083,CUST_2008,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",28,0.89
+TX_VAR_1084,CUST_2009,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",29,0.98
+TX_VAR_1085,CUST_2010,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",16,0.83
+TX_VAR_1086,CUST_2011,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",15,0.84
+TX_VAR_1087,CUST_2012,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",17,0.82
+TX_VAR_1088,CUST_2013,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",36,0.81
+TX_VAR_1089,CUST_2014,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",13,0.72
+TX_VAR_1090,CUST_2015,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",37,0.79
+TX_VAR_1091,CUST_2016,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",46,0.98
+TX_VAR_1092,CUST_2017,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",42,0.8
+TX_VAR_1093,CUST_2018,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",33,0.73
+TX_VAR_1094,CUST_2019,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",34,0.89
+TX_VAR_1095,CUST_2020,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",12,0.91
+TX_VAR_1096,CUST_2021,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",49,0.85
+TX_VAR_1097,CUST_2022,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",12,0.82
+TX_VAR_1098,CUST_2023,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",30,0.96
+TX_VAR_1099,CUST_2024,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",21,0.79
+TX_VAR_1100,CUST_2000,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",27,0.73
+TX_VAR_1101,CUST_2001,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",49,0.73
+TX_VAR_1102,CUST_2002,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",37,0.92
+TX_VAR_1103,CUST_2003,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",33,0.79
+TX_VAR_1104,CUST_2004,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",30,0.85
+TX_VAR_1105,CUST_2005,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",32,0.88
+TX_VAR_1106,CUST_2006,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",13,0.75
+TX_VAR_1107,CUST_2007,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",24,0.85
+TX_VAR_1108,CUST_2008,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",15,0.85
+TX_VAR_1109,CUST_2009,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",33,0.7
+TX_VAR_1110,CUST_2010,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",22,0.71
+TX_VAR_1111,CUST_2011,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",19,0.75
+TX_VAR_1112,CUST_2012,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",20,0.74
+TX_VAR_1113,CUST_2013,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",38,0.96
+TX_VAR_1114,CUST_2014,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",12,0.76
+TX_VAR_1115,CUST_2015,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",11,0.8
+TX_VAR_1116,CUST_2016,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",26,0.96
+TX_VAR_1117,CUST_2017,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",23,0.75
+TX_VAR_1118,CUST_2018,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",20,0.81
+TX_VAR_1119,CUST_2019,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",13,0.79
+TX_VAR_1120,CUST_2020,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",27,0.96
+TX_VAR_1121,CUST_2021,"High-Value VIP Loyalists","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"South Region",40,0.73
+TX_VAR_1122,CUST_2022,"Bargain Hunters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"East Region",36,0.85
+TX_VAR_1123,CUST_2023,"Tech & Trendsetters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"West Region",13,0.89
+TX_VAR_1124,CUST_2024,"Seasonal Home Organizers","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"Central Region",21,0.97
+TX_VAR_1125,CUST_2000,"Urban Fitness Enthusiasts","Electronics","Pro Performance Smartwatch",240,0.52,15,"North Region",21,0.83
+TX_VAR_1126,CUST_2001,"High-Value VIP Loyalists","Footwear","Apex Trail Running Shoes",150,0.48,25,"South Region",35,0.72
+TX_VAR_1127,CUST_2002,"Bargain Hunters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"East Region",36,0.96
+TX_VAR_1128,CUST_2003,"Tech & Trendsetters","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"West Region",12,0.76
+TX_VAR_1129,CUST_2004,"Seasonal Home Organizers","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"Central Region",34,0.83
+TX_VAR_1130,CUST_2005,"Urban Fitness Enthusiasts","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"North Region",15,0.9
+TX_VAR_1131,CUST_2006,"High-Value VIP Loyalists","Electronics","Pro Performance Smartwatch",240,0.52,15,"South Region",17,0.73
+TX_VAR_1132,CUST_2007,"Bargain Hunters","Footwear","Apex Trail Running Shoes",150,0.48,25,"East Region",43,0.86
+TX_VAR_1133,CUST_2008,"Tech & Trendsetters","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"West Region",11,0.85
+TX_VAR_1134,CUST_2009,"Seasonal Home Organizers","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"Central Region",28,0.96
+TX_VAR_1135,CUST_2010,"Urban Fitness Enthusiasts","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"North Region",19,0.84
+TX_VAR_1136,CUST_2011,"High-Value VIP Loyalists","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"South Region",43,0.84
+TX_VAR_1137,CUST_2012,"Bargain Hunters","Electronics","Pro Performance Smartwatch",240,0.52,15,"East Region",17,0.77
+TX_VAR_1138,CUST_2013,"Tech & Trendsetters","Footwear","Apex Trail Running Shoes",150,0.48,25,"West Region",23,0.87
+TX_VAR_1139,CUST_2014,"Seasonal Home Organizers","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"Central Region",18,0.85
+TX_VAR_1140,CUST_2015,"Urban Fitness Enthusiasts","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"North Region",29,0.98
+TX_VAR_1141,CUST_2016,"High-Value VIP Loyalists","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"South Region",20,0.93
+TX_VAR_1142,CUST_2017,"Bargain Hunters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"East Region",11,0.86
+TX_VAR_1143,CUST_2018,"Tech & Trendsetters","Electronics","Pro Performance Smartwatch",240,0.52,15,"West Region",46,0.89
+TX_VAR_1144,CUST_2019,"Seasonal Home Organizers","Footwear","Apex Trail Running Shoes",150,0.48,25,"Central Region",46,0.92
+TX_VAR_1145,CUST_2020,"Urban Fitness Enthusiasts","Apparel","UltraWarm Waterproof Winter Parka",280,0.55,15,"North Region",37,0.87
+TX_VAR_1146,CUST_2021,"High-Value VIP Loyalists","Beauty & Care","Hydrating Botanical Skincare Bundle",78,0.65,20,"South Region",44,0.83
+TX_VAR_1147,CUST_2022,"Bargain Hunters","Home Goods","Ergonomic Mesh Executive Chair",210,0.42,25,"East Region",49,0.9
+TX_VAR_1148,CUST_2023,"Tech & Trendsetters","Outdoor Gear","All-Weather 4-Person Camping Tent",320,0.5,20,"West Region",39,0.9
+TX_VAR_1149,CUST_2024,"Seasonal Home Organizers","Electronics","Pro Performance Smartwatch",240,0.52,15,"Central Region",26,0.83
+TX_VAR_1150,CUST_2000,"Urban Fitness Enthusiasts","Footwear","Apex Trail Running Shoes",150,0.48,25,"North Region",47,0.82

@@ -8,6 +8,7 @@ import FatigueTimelineView from './components/FatigueTimelineView';
 import MonthlyPerformanceTrackerView from './components/MonthlyPerformanceTrackerView';
 import DecisionHistoryTrackerView from './components/DecisionHistoryTrackerView';
 import CrossProductBundlesView from './components/CrossProductBundlesView';
+import BusinessArchitectureView from './components/BusinessArchitectureView';
 import ChatbotWidget from './components/ChatbotWidget';
 import ProductAssessmentModal from './components/ProductAssessmentModal';
 import UserProfileModal from './components/UserProfileModal';
@@ -278,6 +279,10 @@ export default function App() {
                   onNLSearch={handleNLSearch}
                   onInspectAssessment={(item) => setSelectedAssessmentItem(item)}
                 />
+              )}
+
+              {activeTab === 'BUSINESS_TREE' && (
+                <BusinessArchitectureView />
               )}
 
               {activeTab === 'CROSS_PRODUCT_BUNDLES' && (

@@ -121,8 +121,23 @@ export default function ProductAssessmentModal({ item, onClose }) {
               </div>
 
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-                <span className="text-[10px] text-slate-400 font-medium">Discount</span>
-                <p className="text-xs font-bold text-indigo-600 mt-0.5">{discountPct}% OFF</p>
+                <span className="text-[10px] text-slate-400 font-medium">Discount &amp; Coupon</span>
+                <p className="text-xs font-bold text-indigo-600 mt-0.5">{discountPct}% OFF ({item.coupon_code || 'PROMO20'})</p>
+              </div>
+
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] text-slate-400 font-medium">Incoming Stock</span>
+                <p className="text-xs font-bold text-slate-900 mt-0.5">+{item.incoming_stock || 250} units</p>
+              </div>
+
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] text-slate-400 font-medium">Safety Stock Floor</span>
+                <p className="text-xs font-bold text-slate-900 mt-0.5">{item.safety_stock || 80} units</p>
+              </div>
+
+              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                <span className="text-[10px] text-slate-400 font-medium">Shelf Life &amp; Expiry</span>
+                <p className="text-xs font-bold text-slate-900 mt-0.5">{item.shelf_life || '180 Days'} ({item.expiry || 'Dec 2026'})</p>
               </div>
             </div>
           </div>
