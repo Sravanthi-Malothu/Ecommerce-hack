@@ -6,6 +6,7 @@ import CampaignSummaryDashboard from './components/CampaignSummaryDashboard';
 import HeatmapView from './components/HeatmapView';
 import FatigueTimelineView from './components/FatigueTimelineView';
 import ChatbotWidget from './components/ChatbotWidget';
+import ProductAssessmentModal from './components/ProductAssessmentModal';
 
 const API_BASE = 'http://localhost:5001/api';
 
@@ -18,10 +19,11 @@ export default function App() {
   const [heatmapData, setHeatmapData] = useState([]);
   const [fatigueData, setFatigueData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAssessmentItem, setSelectedAssessmentItem] = useState(null);
 
-  const fetchData = async () => {
+  const fetchData = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const [recsRes, sumRes, heatRes, fatRes] = await Promise.all([
         fetch(`${API_BASE}/recommendations`),
         fetch(`${API_BASE}/campaign/summary`),
@@ -45,7 +47,7 @@ export default function App() {
     } catch (err) {
       console.error('Error connecting to PromoAlign backend:', err);
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -71,6 +73,11 @@ export default function App() {
   };
 
   const handleStatusChange = async (id, newStatus) => {
+    // Optimistic local update
+    setRecommendations((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
+    );
+
     try {
       const res = await fetch(`${API_BASE}/recommendations/${id}`, {
         method: 'PATCH',
@@ -78,10 +85,11 @@ export default function App() {
         body: JSON.stringify({ status: newStatus })
       });
       if (res.ok) {
-        fetchData();
+        fetchData(true);
       }
     } catch (err) {
       console.error('Failed to update status:', err);
+      fetchData(true);
     }
   };
 
@@ -93,7 +101,7 @@ export default function App() {
         body: JSON.stringify({ discount_pct })
       });
       if (res.ok) {
-        fetchData();
+        fetchData(true);
       }
     } catch (err) {
       console.error('Failed to update discount:', err);
@@ -108,7 +116,7 @@ export default function App() {
         body: JSON.stringify({ note: noteText })
       });
       if (res.ok) {
-        fetchData();
+        fetchData(true);
       }
     } catch (err) {
       console.error('Failed to post note:', err);
@@ -118,6 +126,15 @@ export default function App() {
   const handleBulkApproveHealthy = async () => {
     const healthyDrafts = recommendations.filter(
       (r) => r.constraintEval.riskLevel === 'HEALTHY' && r.status === 'DRAFT'
+    );
+
+    // Optimistic local update
+    setRecommendations((prev) =>
+      prev.map((r) =>
+        r.constraintEval.riskLevel === 'HEALTHY' && r.status === 'DRAFT'
+          ? { ...r, status: 'APPROVED' }
+          : r
+      )
     );
 
     await Promise.all(
@@ -130,7 +147,7 @@ export default function App() {
       )
     );
 
-    fetchData();
+    fetchData(true);
   };
 
   const handleNLSearch = async (queryStr) => {
@@ -153,10 +170,12 @@ export default function App() {
 
   const handleResetDataset = async () => {
     try {
+      setLoading(true);
       await fetch(`${API_BASE}/dataset/reset`, { method: 'POST' });
       fetchData();
     } catch (err) {
       console.error('Dataset reset failed:', err);
+      setLoading(false);
     }
   };
 
@@ -238,6 +257,7 @@ export default function App() {
                   onAddNote={handleAddNote}
                   onBulkApproveHealthy={handleBulkApproveHealthy}
                   onNLSearch={handleNLSearch}
+                  onInspectAssessment={(item) => setSelectedAssessmentItem(item)}
                 />
               )}
 
@@ -245,6 +265,7 @@ export default function App() {
                 <CampaignSummaryDashboard
                   summary={summary}
                   onExportCSV={handleExportCSV}
+                  onStatusChange={handleStatusChange}
                 />
               )}
 
@@ -275,6 +296,14 @@ export default function App() {
         onExportCSV={handleExportCSV}
         onSelectDataset={handleSelectDataset}
       />
+
+      {/* Product Assessment Modal */}
+      {selectedAssessmentItem && (
+        <ProductAssessmentModal
+          item={selectedAssessmentItem}
+          onClose={() => setSelectedAssessmentItem(null)}
+        />
+      )}
 
     </div>
   );

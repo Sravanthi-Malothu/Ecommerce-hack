@@ -24,7 +24,7 @@ import {
   Legend
 } from 'recharts';
 
-export default function CampaignSummaryDashboard({ summary, onExportCSV }) {
+export default function CampaignSummaryDashboard({ summary, onExportCSV, onStatusChange }) {
   if (!summary) return null;
 
   const {
@@ -252,6 +252,7 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV }) {
                   <th className="py-3 px-3">Projected Rev</th>
                   <th className="py-3 px-3">Post Margin %</th>
                   <th className="py-3 px-3">Risk Status</th>
+                  <th className="py-3 px-3 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -284,6 +285,16 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV }) {
                       >
                         {item.constraintEval.riskLevel}
                       </span>
+                    </td>
+                    <td className="py-3 px-3 text-right">
+                      {onStatusChange && (
+                        <button
+                          onClick={() => onStatusChange(item.id, 'DRAFT')}
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-colors active:scale-95"
+                        >
+                          Revoke Approval
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
