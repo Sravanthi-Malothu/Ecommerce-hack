@@ -5,6 +5,7 @@ import RecommendationFeed from './components/RecommendationFeed';
 import CampaignSummaryDashboard from './components/CampaignSummaryDashboard';
 import HeatmapView from './components/HeatmapView';
 import FatigueTimelineView from './components/FatigueTimelineView';
+import ChatbotWidget from './components/ChatbotWidget';
 
 const API_BASE = 'http://localhost:5001/api';
 
@@ -52,7 +53,6 @@ export default function App() {
     fetchData();
   }, []);
 
-  // Handle Dataset Switch (Rossmann, UCI, dunnhumby, Synthetic)
   const handleSelectDataset = async (datasetId) => {
     try {
       setLoading(true);
@@ -200,7 +200,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#F4F6FA] font-sans">
+    <div className="min-h-screen flex bg-[#F4F6FA] font-sans relative">
       
       {/* Left Sidebar Navigation */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -264,6 +264,16 @@ export default function App() {
         </footer>
 
       </div>
+
+      {/* Floating AI Retail Assistant Chatbot Widget */}
+      <ChatbotWidget
+        persona={persona}
+        onNavigateTab={(tab) => setActiveTab(tab)}
+        onFilterRisk={(riskLevel) => handleNLSearch(riskLevel)}
+        onFilterRegion={(region) => handleNLSearch(region)}
+        onBulkApproveHealthy={handleBulkApproveHealthy}
+        onExportCSV={handleExportCSV}
+      />
 
     </div>
   );

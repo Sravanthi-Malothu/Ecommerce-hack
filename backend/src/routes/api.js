@@ -1,4 +1,5 @@
 import express from 'express';
+import { processChatMessage } from '../engine/chatEngine.js';
 import { v4 as uuidv4 } from 'uuid';
 import { getDatasetById } from '../engine/datasetParser.js';
 import { computePromotionMetrics } from '../engine/scoringEngine.js';
@@ -424,6 +425,49 @@ router.post('/nl-search', (req, res) => {
 router.post('/dataset/reset', (req, res) => {
   initializeRecommendations('SYNTHETIC');
   res.json({ message: 'Dataset re-seeded successfully', activeDatasetId: 'SYNTHETIC', totalCount: appState.recommendations.length });
+});
+
+/**
+ * POST /api/chat
+ * AI Chatbot assistant query endpoint
+ */
+router.post('/chat', (req, res) => {
+  const { message, persona } = req.body;
+  
+  // Calculate summary metrics on the fly for chatbot state
+  const approved = appState.recommendations.filter((r) => r.status === 'APPROVED');
+  const totalIncrementalRevenue = approved.reduce((sum, r) => sum + r.metrics.projectedRevenue, 0);
+  const totalMarginDollars = approved.reduce((sum, r) => sum + r.metrics.projectedMarginDollars, 0);
+  const avgMarginPct = approved.length > 0
+    ? +(approved.reduce((sum, r) => sum + r.metrics.marginPctAfterDiscount, 0) / approved.length * 100).toFixed(1)
+    : 0;
+
+  const stockoutRiskCount = approved.filter((r) => r.constraintEval.riskLevel === 'STOCKOUT_RISK').length;
+  const marginRiskCount = approved.filter((r) => r.constraintEval.riskLevel === 'MARGIN_RISK').length;
+  const tightStockCount = approved.filter((r) => r.constraintEval.riskLevel === 'TIGHT_STOCK').length;
+  let penalty = (stockoutRiskCount * 25) + (marginRiskCount * 20) + (tightStockCount * 8);
+  const readinessScore = Math.max(0, Math.min(100, 100 - penalty));
+
+  const summary = {
+    totalIncrementalRevenue,
+    totalMarginDollars,
+    avgMarginPct,
+    approvedCount: approved.length,
+    totalRecommendationsCount: appState.recommendations.length,
+    readinessScore
+  };
+
+  const response = processChatMessage(message, persona, {
+    recommendations: appState.recommendations,
+    summary,
+    datasetName: appState.rawDataset.dataset_name
+  });
+
+  res.json({
+    id: uuidv4(),
+    timestamp: new Date().toISOString(),
+    response
+  });
 });
 
 export default router;
