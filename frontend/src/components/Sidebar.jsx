@@ -25,7 +25,6 @@ export default function Sidebar({ activeTab, setActiveTab }) {
     { id: 'DECISION_HISTORY', label: 'Decision History', icon: History },
     { id: 'MONTHLY_PERFORMANCE', label: 'Monthly Profit Tracker', icon: BarChart3 },
     { id: 'SUMMARY', label: 'Campaign Summary', icon: TrendingUp },
-    { id: 'HEATMAP', label: 'Regional Matrix', icon: MapPin },
     { id: 'FATIGUE', label: 'Promo Fatigue', icon: Clock }
   ];
 

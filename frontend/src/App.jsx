@@ -3,7 +3,6 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import RecommendationFeed from './components/RecommendationFeed';
 import CampaignSummaryDashboard from './components/CampaignSummaryDashboard';
-import HeatmapView from './components/HeatmapView';
 import FatigueTimelineView from './components/FatigueTimelineView';
 import MonthlyPerformanceTrackerView from './components/MonthlyPerformanceTrackerView';
 import DecisionHistoryTrackerView from './components/DecisionHistoryTrackerView';
@@ -303,10 +302,6 @@ export default function App() {
                   onExportCSV={handleExportCSV}
                   onStatusChange={handleStatusChange}
                 />
-              )}
-
-              {activeTab === 'HEATMAP' && (
-                <HeatmapView heatmapData={heatmapData} />
               )}
 
               {activeTab === 'FATIGUE' && (
