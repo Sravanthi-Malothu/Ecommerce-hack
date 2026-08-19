@@ -1,12 +1,12 @@
 /**
  * PromoAlign Explanation Engine
- * Generates transparent feature-attribution explanations and plain-English business rationales.
+ * Generates transparent feature-attribution explanations and deeply detailed, plain-English business rationales.
  */
 
 export function generateExplanation(segment, product, region, metrics, constraintEval) {
   const topSignals = [];
 
-  // Evaluate Top 3 Contributing Signals
+  // 1. Evaluate Top Contributing Feature Signals (SHAP-style)
   if (metrics.signals.categoryAffinity >= 70) {
     topSignals.push({
       label: 'High Category Affinity',
@@ -45,7 +45,7 @@ export function generateExplanation(segment, product, region, metrics, constrain
     topSignals.push({
       label: 'Robust Stock Cushion',
       value: `${metrics.daysOfSupply} Days Supply`,
-      description: `Healthy inventory position in ${region} to support demand surge`,
+      description: `Healthy inventory position in ${region} (${metrics.stockQty} units) to support demand surge`,
       type: 'positive'
     });
   }
@@ -54,7 +54,7 @@ export function generateExplanation(segment, product, region, metrics, constrain
     topSignals.push({
       label: 'High Margin Preservation',
       value: `${metrics.signals.marginPctAfterDiscount}% Margin`,
-      description: `Strong post-discount profitability safeguards overall campaign ROI`,
+      description: `Strong post-discount profitability ($${metrics.projectedMarginDollars.toLocaleString()}) safeguards campaign ROI`,
       type: 'positive'
     });
   }
@@ -71,20 +71,25 @@ export function generateExplanation(segment, product, region, metrics, constrain
 
   const slicedSignals = topSignals.slice(0, 3);
 
-  // Construct plain-English "Why Recommended" sentence
-  let summaryRationale = `Recommended for ${segment.segment_name} in ${region} mainly due to `;
-  const positiveDrivers = slicedSignals.filter(s => s.type === 'positive').map(s => s.label.toLowerCase());
-  
-  if (positiveDrivers.length > 0) {
-    summaryRationale += positiveDrivers.join(', ') + '.';
-  } else {
-    summaryRationale += 'moderate category affinity and promotional alignment.';
-  }
+  // 2. Construct Deeply Explainable Plain-Language Business Rationale
+  const revLiftFormatted = `$${(metrics.projectedRevenue || 0).toLocaleString()}`;
+  const marginDollarsFormatted = `$${(metrics.projectedMarginDollars || 0).toLocaleString()}`;
+  const marginPct = (metrics.signals.marginPctAfterDiscount || 0).toFixed(1);
+  const demandUnits = metrics.projectedUnits || 0;
+  const stockUnits = metrics.stockQty || 0;
+  const daysSupply = metrics.daysOfSupply || 0;
+  const affinityPct = metrics.signals.categoryAffinity || 85;
+  const demandIndex = metrics.signals.regionalDemandIndex || 1.4;
 
+  let summaryRationale = `Highly recommended campaign targeting ${segment.segment_name} in ${region}: Segment exhibits a strong ${affinityPct}% category affinity for ${product.category}, aligned with a ${demandIndex}x regional demand index projecting +${revLiftFormatted} incremental revenue lift. Store inventory of ${stockUnits} units (${daysSupply} days supply) comfortably covers the ${demandUnits}-unit demand surge, while maintaining a robust ${marginPct}% post-discount margin (${marginDollarsFormatted} preserved).`;
+
+  // Specific risk-overridden rationales for clear operational guidance
   if (constraintEval.riskLevel === 'STOCKOUT_RISK') {
-    summaryRationale += ` ⚠️ CAUTION: Stockout risk flagged (${metrics.stockQty} units remaining).`;
+    summaryRationale = `🔴 Stockout Warning for ${product.product_name} in ${region}: High campaign demand from ${segment.segment_name} (${demandUnits} units) will deplete available store inventory (${stockUnits} units remaining). Recommend reducing discount depth by 5-10% or reallocating store stock to prevent fulfillment failure.`;
   } else if (constraintEval.riskLevel === 'MARGIN_RISK') {
-    summaryRationale += ` ⚠️ CAUTION: Margin drops to ${metrics.signals.marginPctAfterDiscount}% post-discount.`;
+    summaryRationale = `🟠 Margin Floor Violation for ${product.product_name}: Proposed discount depth reduces post-promo margin to ${marginPct}%, dropping below our mandatory 15% margin floor. Recommend capping discount at 15% to preserve category profitability.`;
+  } else if (constraintEval.riskLevel === 'FATIGUE_WARNING') {
+    summaryRationale = `🟡 Promo Fatigue Notice for ${segment.segment_name}: Segment received a promotional campaign ${segment.last_promo_days_ago} days ago. While customer affinity for ${product.category} is high, recommend delaying launch by 5 days to maximize conversion rate.`;
   }
 
   return {
