@@ -1,6 +1,7 @@
 import express from 'express';
 import { processChatMessage } from '../engine/chatEngine.js';
 import { generateMonthlyPerformanceData } from '../engine/monthlyPerformanceTracker.js';
+import { generateDecisionHistoryData } from '../engine/decisionHistoryTracker.js';
 import { v4 as uuidv4 } from 'uuid';
 import { getDatasetById } from '../engine/datasetParser.js';
 import { computePromotionMetrics } from '../engine/scoringEngine.js';
@@ -427,6 +428,19 @@ router.post('/nl-search', (req, res) => {
 router.post('/dataset/reset', (req, res) => {
   initializeRecommendations('SYNTHETIC');
   res.json({ message: 'Dataset re-seeded successfully', activeDatasetId: 'SYNTHETIC', totalCount: appState.recommendations.length });
+});
+
+/**
+ * GET /api/analytics/decision-history
+ * Returns historical decision logs, predicted vs. actual performance vectors, and AI future verdicts
+ */
+router.get('/analytics/decision-history', (req, res) => {
+  const historyData = generateDecisionHistoryData();
+  res.json({
+    datasetName: appState.rawDataset.dataset_name,
+    stats: historyData.stats,
+    decisions: historyData.decisions
+  });
 });
 
 /**
