@@ -5,6 +5,7 @@ import RecommendationFeed from './components/RecommendationFeed';
 import CampaignSummaryDashboard from './components/CampaignSummaryDashboard';
 import HeatmapView from './components/HeatmapView';
 import FatigueTimelineView from './components/FatigueTimelineView';
+import MonthlyPerformanceTrackerView from './components/MonthlyPerformanceTrackerView';
 import ChatbotWidget from './components/ChatbotWidget';
 import ProductAssessmentModal from './components/ProductAssessmentModal';
 
@@ -259,6 +260,10 @@ export default function App() {
                   onNLSearch={handleNLSearch}
                   onInspectAssessment={(item) => setSelectedAssessmentItem(item)}
                 />
+              )}
+
+              {activeTab === 'MONTHLY_PERFORMANCE' && (
+                <MonthlyPerformanceTrackerView />
               )}
 
               {activeTab === 'SUMMARY' && (

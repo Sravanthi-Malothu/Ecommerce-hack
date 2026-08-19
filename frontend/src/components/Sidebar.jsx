@@ -17,7 +17,8 @@ import {
 export default function Sidebar({ activeTab, setActiveTab }) {
   const navItems = [
     { id: 'FEED', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'SUMMARY', label: 'Campaign Summary', icon: BarChart3 },
+    { id: 'MONTHLY_PERFORMANCE', label: 'Monthly Profit Tracker', icon: BarChart3 },
+    { id: 'SUMMARY', label: 'Campaign Summary', icon: TrendingUp },
     { id: 'HEATMAP', label: 'Regional Matrix', icon: MapPin },
     { id: 'FATIGUE', label: 'Promo Fatigue', icon: Clock }
   ];

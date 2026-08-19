@@ -1,6 +1,7 @@
 /**
  * PromoAlign Scoring Engine
- * Computes feature attribution scores, Promotion Fit Score, and financial projections.
+ * Computes feature attribution scores, Promotion Fit Score, financial projections,
+ * and incorporates AI historical feedback loop weights.
  */
 
 export function calculateCategoryAffinity(segment, product) {
@@ -27,7 +28,7 @@ export function getInventoryRecord(inventory, productId, region) {
   };
 }
 
-export function computePromotionMetrics(segment, product, region, discountPct, inventoryData, demandSignals) {
+export function computePromotionMetrics(segment, product, region, discountPct, inventoryData, demandSignals, feedbackScores = {}) {
   const categoryAffinity = calculateCategoryAffinity(segment, product);
   const demandIndex = getRegionalDemandIndex(demandSignals, region, product.category);
   const invRecord = getInventoryRecord(inventoryData, product.product_id, region);
@@ -83,6 +84,15 @@ export function computePromotionMetrics(segment, product, region, discountPct, i
   // Margin retention score
   const marginScore = Math.max(0, Math.min(1.0, marginPctAfterDiscount / 0.50));
 
+  // AI Feedback Loop Score Adjustment (historical ROI & margin boost)
+  const prodFeedback = feedbackScores[product.product_id] || null;
+  let feedbackBoost = 0;
+  if (prodFeedback) {
+    // If historical ROI > 120%, grant AI feedback bonus (+8 points)
+    if (prodFeedback.avgRoi > 120) feedbackBoost += 5;
+    if (prodFeedback.avgRevenueUplift > 30) feedbackBoost += 3;
+  }
+
   // Weighted Promotion Fit Score (0 to 100)
   const rawFitScore = (
     (affinityScore * 0.25) +
@@ -90,7 +100,7 @@ export function computePromotionMetrics(segment, product, region, discountPct, i
     (responsivenessScore * 0.20) +
     (inventoryScore * 0.20) +
     (marginScore * 0.10)
-  ) * 100;
+  ) * 100 + feedbackBoost;
 
   const fitScore = Math.round(Math.min(99, Math.max(10, rawFitScore)));
 
@@ -104,6 +114,7 @@ export function computePromotionMetrics(segment, product, region, discountPct, i
     inventoryHealthRatio,
     stockQty: invRecord.stock_qty,
     daysOfSupply: invRecord.days_of_supply,
+    historicalFeedback: prodFeedback,
     signals: {
       categoryAffinity: +(affinityScore * 100).toFixed(0),
       regionalDemandIndex: demandIndex,
