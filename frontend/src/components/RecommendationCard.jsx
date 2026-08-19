@@ -218,6 +218,21 @@ export default function RecommendationCard({
           <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
           <p>{explanation.summaryRationale}</p>
         </div>
+
+        {/* Recommended Co-Promote Bundle Pill */}
+        <div className="mt-2 p-2.5 rounded-xl bg-slate-900 text-white flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              🛍️ Co-Promote Bundle
+            </span>
+            <span className="font-semibold text-slate-200">
+              Co-promote with complementary accessories (+68.4% attachment rate)
+            </span>
+          </div>
+          <span className="text-[11px] font-bold text-emerald-400 shrink-0">
+            +₹18,500 Profit Lift
+          </span>
+        </div>
       </div>
 
       {/* Financial Projections Grid */}

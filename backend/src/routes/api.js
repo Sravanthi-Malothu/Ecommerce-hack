@@ -2,6 +2,7 @@ import express from 'express';
 import { processChatMessage } from '../engine/chatEngine.js';
 import { generateMonthlyPerformanceData } from '../engine/monthlyPerformanceTracker.js';
 import { generateDecisionHistoryData } from '../engine/decisionHistoryTracker.js';
+import { generateCrossProductBundlesData } from '../engine/crossProductEngine.js';
 import { v4 as uuidv4 } from 'uuid';
 import { getDatasetById } from '../engine/datasetParser.js';
 import { computePromotionMetrics } from '../engine/scoringEngine.js';
@@ -428,6 +429,21 @@ router.post('/nl-search', (req, res) => {
 router.post('/dataset/reset', (req, res) => {
   initializeRecommendations('SYNTHETIC');
   res.json({ message: 'Dataset re-seeded successfully', activeDatasetId: 'SYNTHETIC', totalCount: appState.recommendations.length });
+});
+
+/**
+ * GET /api/analytics/cross-product-bundles
+ * Returns cross-product bundle recommendations, attachment rates, incremental profit,
+ * and AI Future Bundle Verdicts.
+ */
+router.get('/analytics/cross-product-bundles', (req, res) => {
+  const bundlesData = generateCrossProductBundlesData();
+  res.json({
+    datasetName: appState.rawDataset.dataset_name,
+    stats: bundlesData.stats,
+    bundles: bundlesData.bundles,
+    complementaryMapping: bundlesData.complementaryMapping
+  });
 });
 
 /**

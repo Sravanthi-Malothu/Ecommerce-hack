@@ -12,12 +12,14 @@ import {
   TrendingUp,
   FolderTree,
   Tag,
-  History
+  History,
+  PackagePlus
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   const navItems = [
     { id: 'FEED', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'CROSS_PRODUCT_BUNDLES', label: 'Cross-Product Bundles', icon: PackagePlus },
     { id: 'DECISION_HISTORY', label: 'Decision History', icon: History },
     { id: 'MONTHLY_PERFORMANCE', label: 'Monthly Profit Tracker', icon: BarChart3 },
     { id: 'SUMMARY', label: 'Campaign Summary', icon: TrendingUp },
