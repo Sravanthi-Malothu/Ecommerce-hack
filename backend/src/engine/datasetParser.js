@@ -1,11 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { generateAllRawDatasets } from '../data/rawDatasetsGenerator.js';
+import { generate8StagePipelineData } from './pipelineGenerator.js';
 import { CUSTOMER_SEGMENTS, PRODUCTS, REGIONS, generateFullDataset } from '../data/syntheticGenerator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const RAW_DIR = path.join(__dirname, '../data/raw');
+
+generateAllRawDatasets();
 
 function parseCSVLines(filePath, maxRows = 5000) {
   if (!fs.existsSync(filePath)) return [];
@@ -32,7 +36,61 @@ function parseCSVLines(filePath, maxRows = 5000) {
 }
 
 /**
- * 1. Parse Real Kaggle UCI Online Retail Dataset (42.9 MB real logs)
+ * 0. Parse 8-Stage End-to-End Pipeline Dataset
+ */
+export function parsePipeline8StageDataset() {
+  const records = generate8StagePipelineData(120);
+
+  const products = PRODUCTS;
+  const customer_segments = CUSTOMER_SEGMENTS;
+  const regions = REGIONS;
+  const inventory = [];
+  const regional_demand_signals = [];
+  const promotion_history = [];
+
+  regions.forEach((region) => {
+    ['Footwear', 'Apparel', 'Beauty & Care', 'Home Goods', 'Outdoor Gear', 'Electronics'].forEach((category) => {
+      regional_demand_signals.push({
+        region,
+        product_category: category,
+        demand_index: 1.55,
+        trend_direction: 'Spiking',
+        week_of_year: 34
+      });
+    });
+
+    products.forEach((p) => {
+      const stock = Math.round(p.avg_weekly_demand * 2.5);
+      inventory.push({
+        inventory_id: `inv_pl_${p.product_id}_${region.replace(/\s+/g, '_')}`,
+        product_id: p.product_id,
+        region,
+        stock_qty: stock,
+        reorder_threshold: Math.round(p.avg_weekly_demand * 0.75),
+        days_of_supply: Math.round(stock / (p.avg_weekly_demand / 7))
+      });
+    });
+  });
+
+  return {
+    dataset_name: '8-Stage End-to-End Retail Data Pipeline',
+    customer_segments,
+    products,
+    regions,
+    inventory,
+    regional_demand_signals,
+    promotion_history,
+    pipeline_records: records,
+    kaggle_stats: {
+      total_rows: records.length,
+      total_revenue: records.reduce((sum, r) => sum + r.projectedMarginDollars * 2, 0),
+      avg_order_value: 142.50
+    }
+  };
+}
+
+/**
+ * 1. Parse Real Kaggle UCI Online Retail Dataset
  */
 export function parseUciOnlineRetailDataset() {
   const filePath = path.join(RAW_DIR, 'uci_online_retail_kaggle.csv');
@@ -375,6 +433,8 @@ export function parseVarshithaEcommerceDataset() {
 
 export function getDatasetById(datasetId) {
   switch (datasetId) {
+    case 'PIPELINE_8STAGE':
+      return parsePipeline8StageDataset();
     case 'VARSHITHA_ECOMMERCE':
       return parseVarshithaEcommerceDataset();
     case 'ROSSMANN':

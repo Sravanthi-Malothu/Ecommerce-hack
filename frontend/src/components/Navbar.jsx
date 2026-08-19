@@ -32,6 +32,7 @@ export default function Navbar({
 
   const datasetOptions = [
     { id: 'SYNTHETIC', label: '⚡ Synthetic Retail Benchmark' },
+    { id: 'PIPELINE_8STAGE', label: '🔄 8-Stage End-to-End Pipeline' },
     { id: 'VARSHITHA_ECOMMERCE', label: '🛍️ varshitha1809 Ecommerce Hub' },
     { id: 'ROSSMANN', label: '🏬 Rossmann Store Sales Dataset' },
     { id: 'UCI_ONLINE', label: '🌐 Kaggle UCI Online Retail (42.9 MB)' },

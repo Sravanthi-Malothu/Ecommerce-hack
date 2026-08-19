@@ -17,6 +17,7 @@ let appState = {
 
 export const AVAILABLE_DATASETS = [
   { id: 'SYNTHETIC', name: '⚡ Synthetic Retail Benchmark', description: 'Pre-seeded demo edge cases (Stockout, Margin Risk, High-ROI Winner)', icon: 'Sparkles' },
+  { id: 'PIPELINE_8STAGE', name: '🔄 8-Stage End-to-End Pipeline', description: 'Sequential flow (Customer → Purchase History → Product Affinity → Promo Response → Demand Forecast → Inventory → Margin → Recommendation)', icon: 'GitBranch' },
   { id: 'VARSHITHA_ECOMMERCE', name: '🛍️ varshitha1809 Ecommerce Hub', description: 'GitHub varshitha1809/Ecommerce repository dataset & transaction logs', icon: 'ShoppingBag' },
   { id: 'ROSSMANN', name: '🏬 Rossmann Store Sales Dataset', description: 'Real European store sales, store types, competition distance & Promo2 data', icon: 'Store' },
   { id: 'UCI_ONLINE', name: '🌐 Kaggle UCI Online Retail (42.9 MB)', description: 'Real e-commerce transactional invoices, stock codes, UK/EU customer segments', icon: 'Globe' },
@@ -425,6 +426,31 @@ router.post('/nl-search', (req, res) => {
 router.post('/dataset/reset', (req, res) => {
   initializeRecommendations('SYNTHETIC');
   res.json({ message: 'Dataset re-seeded successfully', activeDatasetId: 'SYNTHETIC', totalCount: appState.recommendations.length });
+});
+
+/**
+ * GET /api/pipeline
+ * Returns 8-stage pipeline records and flowchart structure
+ */
+router.get('/pipeline', (req, res) => {
+  const records = appState.rawDataset.pipeline_records || [];
+  const pipelineStages = [
+    { stage: 1, title: 'Customer', desc: 'Customer segment identification & persona profiling' },
+    { stage: 2, title: 'Purchase History', desc: 'Recency, frequency, monetary value & historical category preferences' },
+    { stage: 3, title: 'Product Affinity', desc: 'Cosine similarity & brand affinity score matching' },
+    { stage: 4, title: 'Promotion Response', desc: 'Discount elasticity & estimated redemption rate modeling' },
+    { stage: 5, title: 'Demand Forecast', desc: 'Regional demand index & promotional lift multiplier' },
+    { stage: 6, title: 'Inventory Availability', desc: 'Store stock level checking & stockout risk evaluation' },
+    { stage: 7, title: 'Margin Calculation', desc: 'Unit price markdown, post-discount margin % & margin risk floor' },
+    { stage: 8, title: 'Promotion Recommendation', desc: 'Weighted fit score computation & AI plain-language rationale' }
+  ];
+
+  res.json({
+    datasetName: appState.rawDataset.dataset_name,
+    pipelineStages,
+    totalRecords: records.length,
+    sampleRecords: records.slice(0, 10)
+  });
 });
 
 /**
