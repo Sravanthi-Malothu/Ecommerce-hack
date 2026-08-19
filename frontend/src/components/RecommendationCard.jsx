@@ -213,10 +213,47 @@ export default function RecommendationCard({
           ))}
         </div>
 
-        {/* AI Rationale Sentence */}
-        <div className="bg-indigo-50/60 border border-indigo-100 p-2.5 rounded-xl text-xs text-indigo-900 flex items-start gap-2">
-          <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
-          <p>{explanation.summaryRationale}</p>
+        {/* Why This Offer Is Recommended Panel */}
+        <div className="bg-emerald-50/70 border border-emerald-200/80 p-3 rounded-xl text-xs text-emerald-950 space-y-1">
+          <div className="font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            Why This Offer Is Recommended
+          </div>
+          <p className="leading-relaxed text-[11px] text-emerald-900">
+            {explanation.recommendationWhy || explanation.summaryRationale}
+          </p>
+        </div>
+
+        {/* Operational Risks & Mitigation Strategy Panel */}
+        <div className={`mt-2 p-3 rounded-xl border text-xs space-y-1.5 ${
+          explanation.operationalRiskAssessment?.riskLevel === 'STOCKOUT_RISK'
+            ? 'bg-rose-50/80 border-rose-200 text-rose-950'
+            : explanation.operationalRiskAssessment?.riskLevel === 'MARGIN_RISK'
+            ? 'bg-amber-50/80 border-amber-200 text-amber-950'
+            : explanation.operationalRiskAssessment?.riskLevel === 'FATIGUE_WARNING'
+            ? 'bg-yellow-50/80 border-yellow-200 text-yellow-950'
+            : 'bg-slate-50 border-slate-200 text-slate-900'
+        }`}>
+          <div className="font-bold flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+            <AlertTriangle className={`w-3.5 h-3.5 ${
+              explanation.operationalRiskAssessment?.riskLevel === 'STOCKOUT_RISK'
+                ? 'text-rose-600 animate-pulse'
+                : explanation.operationalRiskAssessment?.riskLevel === 'MARGIN_RISK'
+                ? 'text-amber-600'
+                : 'text-slate-500'
+            }`} />
+            Operational Risk &amp; Fulfillment Assessment
+          </div>
+          <p className="font-semibold text-[11px]">
+            {explanation.operationalRiskAssessment?.title || 'Operational Risk Evaluated'}
+          </p>
+          <p className="text-[11px] leading-tight text-slate-700">
+            {explanation.operationalRiskAssessment?.details}
+          </p>
+          <div className="pt-1 text-[11px] font-bold text-indigo-700 flex items-start gap-1">
+            <span className="shrink-0">⚙️ Action Plan:</span>
+            <span>{explanation.operationalRiskAssessment?.mitigation || explanation.actionAdvice}</span>
+          </div>
         </div>
 
         {/* Recommended Co-Promote Bundle Pill */}

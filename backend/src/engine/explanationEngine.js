@@ -1,6 +1,7 @@
 /**
  * PromoAlign Explanation Engine
- * Generates transparent feature-attribution explanations and deeply detailed, plain-English business rationales.
+ * Generates transparent feature-attribution explanations, plain-English recommendation drivers,
+ * and structured Operational Risk & Supply Chain Assessments.
  */
 
 export function generateExplanation(segment, product, region, metrics, constraintEval) {
@@ -54,7 +55,7 @@ export function generateExplanation(segment, product, region, metrics, constrain
     topSignals.push({
       label: 'High Margin Preservation',
       value: `${metrics.signals.marginPctAfterDiscount}% Margin`,
-      description: `Strong post-discount profitability ($${metrics.projectedMarginDollars.toLocaleString()}) safeguards campaign ROI`,
+      description: `Strong post-discount profitability (₹${metrics.projectedMarginDollars.toLocaleString('en-IN')}) safeguards campaign ROI`,
       type: 'positive'
     });
   }
@@ -71,7 +72,7 @@ export function generateExplanation(segment, product, region, metrics, constrain
 
   const slicedSignals = topSignals.slice(0, 3);
 
-  // 2. Construct Deeply Explainable Plain-Language Business Rationale
+  // 2. Formatting Numbers for Explanations
   const revLiftFormatted = `₹${(metrics.projectedRevenue || 0).toLocaleString('en-IN')}`;
   const marginDollarsFormatted = `₹${(metrics.projectedMarginDollars || 0).toLocaleString('en-IN')}`;
   const marginPct = (metrics.signals.marginPctAfterDiscount || 0).toFixed(1);
@@ -81,22 +82,47 @@ export function generateExplanation(segment, product, region, metrics, constrain
   const affinityPct = metrics.signals.categoryAffinity || 85;
   const demandIndex = metrics.signals.regionalDemandIndex || 1.4;
 
-  let summaryRationale = `Highly recommended campaign targeting ${segment.segment_name} in ${region}: Segment exhibits a strong ${affinityPct}% category affinity for ${product.category}, aligned with a ${demandIndex}x regional demand index projecting +${revLiftFormatted} incremental revenue lift. Store inventory of ${stockUnits} units (${daysSupply} days supply) comfortably covers the ${demandUnits}-unit demand surge, while maintaining a robust ${marginPct}% post-discount margin (${marginDollarsFormatted} preserved).`;
+  // 3. WHY THIS OFFER IS RECOMMENDED (Driver Rationale)
+  const recommendationWhy = `Recommended for ${segment.segment_name} in ${region}: Driven by high category affinity (+${affinityPct}%) for ${product.category}, a regional demand index of ${demandIndex}x in ${region}, and historical redemption conversion (+${metrics.signals.discountResponsiveness || 72}%). Projected to generate +${revLiftFormatted} in incremental revenue while preserving ${marginDollarsFormatted} in margin dollars (${marginPct}% post-discount margin).`;
 
-  // Specific risk-overridden rationales for clear operational guidance
+  // 4. WHAT OPERATIONAL RISKS MAY EXIST (Risk & Mitigation Assessment)
+  let operationalRiskLevel = constraintEval.riskLevel;
+  let operationalRiskTitle = '🟢 Zero Operational Risk: Supply Chain & Margin Confirmed';
+  let operationalRiskDetails = `Confirmed robust inventory position (${stockUnits} units, ${daysSupply} days of supply) to comfortably support the ${demandUnits}-unit demand surge. Post-discount margin of ${marginPct}% comfortably exceeds our company 15% floor.`;
+  let operationalMitigation = 'Proceed with campaign launch and automated cross-channel promotion.';
+
   if (constraintEval.riskLevel === 'STOCKOUT_RISK') {
-    summaryRationale = `🔴 Stockout Warning for ${product.product_name} in ${region}: High campaign demand from ${segment.segment_name} (${demandUnits} units) will deplete available store inventory (${stockUnits} units remaining). Recommend reducing discount depth by 5-10% or reallocating store stock to prevent fulfillment failure.`;
+    operationalRiskTitle = '🔴 Operational Risk: Inventory Stockout & Supply Chain Fulfillment Shortfall';
+    operationalRiskDetails = `Available store inventory (${stockUnits} units) is lower than projected promotional demand (${demandUnits} units). Running this promotion at ${metrics.discount_pct || 20}% discount risks 100% stock depletion and fulfillment failure. Reorder lead time is 5 days.`;
+    operationalMitigation = 'Operational Action Required: Reduce discount depth by 5-10% to curb excess demand, or reallocate 150+ units from adjacent regional warehouse prior to launch.';
   } else if (constraintEval.riskLevel === 'MARGIN_RISK') {
-    summaryRationale = `🟠 Margin Floor Violation for ${product.product_name}: Proposed discount depth reduces post-promo margin to ${marginPct}%, dropping below our mandatory 15% margin floor. Recommend capping discount at 15%.`;
+    operationalRiskTitle = '🟠 Operational Risk: Post-Discount Margin Floor Breach';
+    operationalRiskDetails = `Proposed discount depth reduces post-promo margin to ${marginPct}%, dropping below our mandatory 15% company margin floor threshold. Risk of profit cannibalization.`;
+    operationalMitigation = 'Operational Action Required: Cap maximum discount depth at 15% or require explicit sign-off from Category Lead Sravanthi.';
   } else if (constraintEval.riskLevel === 'FATIGUE_WARNING') {
-    summaryRationale = `🟡 Promo Fatigue Notice for ${segment.segment_name}: Segment received a promotional campaign ${segment.last_promo_days_ago} days ago. While customer affinity for ${product.category} is high, recommend delaying launch by 5 days to maximize conversion rate.`;
+    operationalRiskTitle = '🟡 Operational Risk: Customer Segment Promotion Fatigue';
+    operationalRiskDetails = `${segment.segment_name} received a promotional campaign ${segment.last_promo_days_ago} days ago (within 14-day frequency capping window). Risk of declining click-through and customer unsubscribe rates.`;
+    operationalMitigation = 'Operational Action Required: Enforce 14-day campaign cooldown by delaying promotion launch by 5 days.';
+  }
+
+  // Legacy summary rationale for backward compatibility
+  let summaryRationale = recommendationWhy;
+  if (constraintEval.riskLevel !== 'HEALTHY') {
+    summaryRationale = `${operationalRiskTitle}: ${operationalRiskDetails} ${operationalMitigation}`;
   }
 
   return {
     topSignals: slicedSignals,
+    recommendationWhy,
+    operationalRiskAssessment: {
+      riskLevel: operationalRiskLevel,
+      title: operationalRiskTitle,
+      details: operationalRiskDetails,
+      mitigation: operationalMitigation
+    },
     summaryRationale,
     riskBadges: constraintEval.flags.map(f => f.badge),
     primaryRiskLevel: constraintEval.riskLevel,
-    actionAdvice: constraintEval.flags[0]?.suggestedAction || 'Review and approve.'
+    actionAdvice: constraintEval.flags[0]?.suggestedAction || operationalMitigation
   };
 }

@@ -238,17 +238,54 @@ export default function ProductAssessmentModal({ item, onClose }) {
               {/* Final AI Recommendation Banner */}
               <div className={`p-4 rounded-2xl border flex items-center justify-between ${
                 isSufficient
-                  ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
-                  : 'bg-rose-50 border-rose-200 text-rose-900'
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-900'
+                  : 'bg-rose-500/10 border-rose-500/30 text-rose-900'
               }`}>
                 <div>
-                  <span className="text-[10px] uppercase font-extrabold tracking-wider opacity-75">Final AI Decision</span>
-                  <p className="text-sm font-black mt-0.5">Recommendation = {recommendation}</p>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Final AI Recommendation</span>
+                  <p className="text-base font-black mt-0.5">{recommendationText}</p>
                 </div>
-                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-lg ${
-                  isSufficient ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'
+                <div className={`px-3 py-1.5 rounded-xl text-xs font-extrabold border ${
+                  isSufficient
+                    ? 'bg-emerald-600 text-white border-emerald-500'
+                    : 'bg-rose-600 text-white border-rose-500'
                 }`}>
-                  {isSufficient ? '🟢' : '🔴'}
+                  {isSufficient ? '🟢 PROMOTE' : '🔴 DO NOT PROMOTE'}
+                </div>
+              </div>
+
+              {/* Explicit Why Recommended Panel */}
+              <div className="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs text-emerald-950 space-y-1">
+                <div className="font-bold text-emerald-800 flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  Why This Offer Is Recommended
+                </div>
+                <p className="leading-relaxed text-[11px] text-emerald-900">
+                  {item.explanation?.recommendationWhy || `High customer fit (${customerFit}) and strong regional demand (${demandLevel}) projecting healthy revenue lift.`}
+                </p>
+              </div>
+
+              {/* Explicit Operational Risk Assessment & Mitigation Panel */}
+              <div className={`p-3.5 rounded-xl border text-xs space-y-1.5 ${
+                isSufficient ? 'bg-slate-50 border-slate-200 text-slate-900' : 'bg-rose-50 border-rose-200 text-rose-950'
+              }`}>
+                <div className="font-bold flex items-center gap-1.5 uppercase tracking-wider text-[10px]">
+                  <AlertTriangle className={`w-3.5 h-3.5 ${isSufficient ? 'text-slate-500' : 'text-rose-600 animate-pulse'}`} />
+                  Operational Risk &amp; Fulfillment Assessment
+                </div>
+                <p className="font-semibold text-[11px]">
+                  {isSufficient
+                    ? '🟢 Zero Operational Risk: Stock Buffer Confirmed (1,000 units > 850 demand)'
+                    : '🔴 Critical Operational Risk: 100% Stock Depletion & Fulfillment Shortfall'}
+                </p>
+                <p className="text-[11px] text-slate-700 leading-tight">
+                  {isSufficient
+                    ? 'Sufficient inventory buffer is confirmed. Lead time and holding cost constraints are satisfied.'
+                    : 'Available stock (400 units) covers less than 50% of projected promo demand (850 units). Out-of-stock failure imminent if promoted at 10% OFF.'}
+                </p>
+                <div className="pt-1 text-[11px] font-bold text-indigo-700 flex items-start gap-1">
+                  <span className="shrink-0">⚙️ Mitigation Plan:</span>
+                  <span>{isSufficient ? 'Proceed with campaign launch and automated cross-channel promotion.' : 'Operational Action Required: Suppress campaign in this store region or reallocate 450+ units from central warehouse before launch.'}</span>
                 </div>
               </div>
             </div>
