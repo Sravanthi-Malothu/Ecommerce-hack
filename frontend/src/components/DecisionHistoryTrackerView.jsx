@@ -28,6 +28,8 @@ import {
   CartesianGrid
 } from 'recharts';
 
+import { API_BASE } from '../utils/apiConfig';
+
 export default function DecisionHistoryTrackerView() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -38,7 +40,7 @@ export default function DecisionHistoryTrackerView() {
     const fetchHistoryData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5001/api/analytics/decision-history');
+        const res = await fetch(`${API_BASE}/api/analytics/decision-history`);
         const json = await res.json();
         setData(json);
       } catch (err) {

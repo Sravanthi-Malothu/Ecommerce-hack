@@ -19,6 +19,7 @@ import {
   Activity,
   FileText
 } from 'lucide-react';
+import { API_BASE } from '../utils/apiConfig';
 
 export default function BacktestEvaluationView() {
   const [activeDatasetId, setActiveDatasetId] = useState('SYNTHETIC');
@@ -31,7 +32,7 @@ export default function BacktestEvaluationView() {
   const fetchBacktestData = async (datasetId = activeDatasetId) => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5001/api/analytics/backtest?datasetId=${datasetId}`);
+      const res = await fetch(`${API_BASE}/api/analytics/backtest?datasetId=${datasetId}`);
       const data = await res.json();
       setReport(data);
     } catch (err) {
@@ -48,7 +49,7 @@ export default function BacktestEvaluationView() {
   const handleRunBacktest = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5001/api/analytics/run-backtest', {
+      const res = await fetch(`${API_BASE}/api/analytics/run-backtest`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ datasetId: activeDatasetId })

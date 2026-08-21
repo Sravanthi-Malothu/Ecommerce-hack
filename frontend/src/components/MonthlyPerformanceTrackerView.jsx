@@ -19,6 +19,8 @@ import {
   Legend
 } from 'recharts';
 
+import { API_BASE } from '../utils/apiConfig';
+
 export default function MonthlyPerformanceTrackerView() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -29,7 +31,7 @@ export default function MonthlyPerformanceTrackerView() {
     const fetchMonthlyData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5001/api/analytics/monthly-performance');
+        const res = await fetch(`${API_BASE}/api/analytics/monthly-performance`);
         const json = await res.json();
         setData(json);
       } catch (err) {

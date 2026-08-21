@@ -21,6 +21,8 @@ import {
   CartesianGrid
 } from 'recharts';
 
+import { API_BASE } from '../utils/apiConfig';
+
 export default function CrossProductBundlesView() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -32,7 +34,7 @@ export default function CrossProductBundlesView() {
     const fetchBundlesData = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5001/api/analytics/cross-product-bundles');
+        const res = await fetch(`${API_BASE}/api/analytics/cross-product-bundles`);
         const json = await res.json();
         setData(json);
       } catch (err) {

@@ -8,6 +8,8 @@ import {
   ResponsiveContainer, CartesianGrid, Legend, RadialBarChart, RadialBar
 } from 'recharts';
 
+import { API_BASE } from '../utils/apiConfig';
+
 export default function PredictiveMlDashboardView() {
   // Interactive Simulation Controls State
   const [discountPct, setDiscountPct] = useState(20);
@@ -25,7 +27,7 @@ export default function PredictiveMlDashboardView() {
   const fetchMlPredictions = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5001/api/ml/predict', {
+      const res = await fetch(`${API_BASE}/api/ml/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

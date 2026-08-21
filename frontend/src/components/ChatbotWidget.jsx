@@ -13,6 +13,8 @@ import {
   Bot
 } from 'lucide-react';
 
+import { API_BASE } from '../utils/apiConfig';
+
 export default function ChatbotWidget({
   persona,
   onNavigateTab,
@@ -64,7 +66,7 @@ export default function ChatbotWidget({
     setIsTyping(true);
 
     try {
-      const res = await fetch('http://localhost:5001/api/chat', {
+      const res = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text.trim(), persona })

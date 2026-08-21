@@ -12,9 +12,9 @@ import PredictiveMlDashboardView from './components/PredictiveMlDashboardView';
 import BacktestEvaluationView from './components/BacktestEvaluationView';
 import ChatbotWidget from './components/ChatbotWidget';
 import ProductAssessmentModal from './components/ProductAssessmentModal';
-import UserProfileModal from './components/UserProfileModal';
+import { API_BASE as API_HOST } from './utils/apiConfig';
 
-const API_BASE = 'http://localhost:5001/api';
+const API_BASE = `${API_HOST}/api`;
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('FEED'); // 'FEED', 'SUMMARY', 'HEATMAP', 'FATIGUE', 'MONTHLY_PERFORMANCE', 'DECISION_HISTORY'
