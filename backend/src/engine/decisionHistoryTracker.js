@@ -1,9 +1,9 @@
 import { PRODUCTS, CUSTOMER_SEGMENTS, REGIONS } from '../data/syntheticGenerator.js';
 
 /**
- * PromoAlign Decision History & Post-Launch Outcome Tracking Engine
+ * PromoAlign Decision History & Counterfactual Uplift Engine
  * Logs team promotional decisions (Approved, Rejected, Modified), tracks actual post-launch outcomes,
- * compares Predicted vs. Actual performance, and provides AI Verdicts for Future Decisions.
+ * compares Predicted vs. Actual performance, and computes Counterfactual Uplift vs non-promoted baselines.
  */
 export function generateDecisionHistoryData() {
   const decisions = [];
@@ -24,6 +24,7 @@ export function generateDecisionHistoryData() {
     const scenarioType = idx % 5 === 0 ? 'STOCKOUT_FAILURE' : idx % 7 === 0 ? 'MARGIN_BREACH' : idx % 6 === 0 ? 'REJECTED' : 'SUCCESS';
 
     const basePrice = product.base_price || 150;
+    const costPrice = Math.round(basePrice * (1 - (product.margin_pct || 0.35)));
     const proposedDiscount = scenarioType === 'MARGIN_BREACH' ? 35 : (idx % 3 === 0 ? 25 : 15);
     const discountedPrice = +(basePrice * (1 - proposedDiscount / 100)).toFixed(2);
 
@@ -82,6 +83,27 @@ export function generateDecisionHistoryData() {
       verdictExplanation = `Campaign rejected during sign-off due to poor customer segment affinity. Baseline sales generated un-discounted margin.`;
     }
 
+    // --------------------------------------------------------------------------------
+    // Counterfactual Uplift Estimator Logic:
+    // What would have happened if NO promotion was offered (d = 0)?
+    // Counterfactual Baseline Units U_base estimated from pre-promo non-discounted demand
+    // --------------------------------------------------------------------------------
+    const baselineUnits = decisionTaken === 'REJECTED' 
+      ? 280 + (idx * 15) 
+      : Math.round(predictedUnits / (1 + (proposedDiscount / 100) * 1.8));
+
+    const counterfactualRevenue = Math.round(baselineUnits * basePrice);
+    const counterfactualMarginDollars = Math.round(baselineUnits * (basePrice - costPrice));
+
+    const actualMarginDollars = decisionTaken === 'REJECTED' 
+      ? counterfactualMarginDollars 
+      : Math.round(actualUnits * (discountedPrice - costPrice));
+
+    const incrementalUnitsLift = actualUnits - baselineUnits;
+    const incrementalRevenueLift = actualRevenue - counterfactualRevenue;
+    const incrementalProfitLift = actualMarginDollars - counterfactualMarginDollars;
+    const isNetPositiveUplift = incrementalProfitLift > 0;
+
     decisions.push({
       decisionId: `dec_${1000 + idx}`,
       decisionDate: date,
@@ -94,7 +116,7 @@ export function generateDecisionHistoryData() {
       decisionTaken,
       proposedDiscount: `${proposedDiscount}% OFF`,
 
-      // Performance Comparison
+      // Realized Performance Metrics
       predictedUnits,
       actualUnits,
       unitVariancePct: predictedUnits > 0 ? +(((actualUnits - predictedUnits) / predictedUnits) * 100).toFixed(1) : 0,
@@ -109,6 +131,19 @@ export function generateDecisionHistoryData() {
       stockImpact,
       outcomeStatus,
 
+      // Counterfactual Uplift Module (d = 0 Baseline Control Comparison)
+      counterfactual: {
+        baselineUnits,
+        counterfactualRevenue,
+        counterfactualMarginDollars,
+        actualMarginDollars,
+        incrementalUnitsLift,
+        incrementalRevenueLift,
+        incrementalProfitLift,
+        isNetPositiveUplift,
+        methodologyNote: 'Baseline Comparison Heuristic: Matched non-promoted historical demand (d=0) vs. realized outcome.'
+      },
+
       // AI Verdict for Future Decisions
       aiVerdict: {
         repeatRecommendation,
@@ -118,7 +153,7 @@ export function generateDecisionHistoryData() {
     });
   });
 
-  // Calculate Overall Decision Accuracy Stats
+  // Aggregate Decision History & Counterfactual Stats
   const approvedDecisions = decisions.filter(d => d.decisionTaken !== 'REJECTED');
   const repeatCount = approvedDecisions.filter(d => d.aiVerdict.repeatRecommendation === 'REPEAT').length;
   const doNotRepeatCount = approvedDecisions.filter(d => d.aiVerdict.repeatRecommendation === 'DO_NOT_REPEAT').length;
@@ -126,6 +161,10 @@ export function generateDecisionHistoryData() {
 
   const totalActualRevenue = approvedDecisions.reduce((sum, d) => sum + d.actualRevenue, 0);
   const totalPredictedRevenue = approvedDecisions.reduce((sum, d) => sum + d.predictedRevenue, 0);
+  const totalCounterfactualRevenue = approvedDecisions.reduce((sum, d) => sum + d.counterfactual.counterfactualRevenue, 0);
+  const totalIncrementalRevenueLift = approvedDecisions.reduce((sum, d) => sum + d.counterfactual.incrementalRevenueLift, 0);
+  const totalIncrementalProfitLift = approvedDecisions.reduce((sum, d) => sum + d.counterfactual.incrementalProfitLift, 0);
+  const netPositiveDecisionsCount = approvedDecisions.filter(d => d.counterfactual.isNetPositiveUplift).length;
 
   return {
     decisions,
@@ -136,6 +175,10 @@ export function generateDecisionHistoryData() {
       regrettedCount: doNotRepeatCount,
       modifyCount,
       totalActualRevenue,
+      totalCounterfactualRevenue,
+      totalIncrementalRevenueLift,
+      totalIncrementalProfitLift,
+      netPositiveUpliftPct: approvedDecisions.length > 0 ? +((netPositiveDecisionsCount / approvedDecisions.length) * 100).toFixed(1) : 0,
       revenuePredictionAccuracyPct: totalPredictedRevenue > 0 ? +(100 - Math.abs((totalActualRevenue - totalPredictedRevenue) / totalPredictedRevenue) * 100).toFixed(1) : 95.0
     }
   };

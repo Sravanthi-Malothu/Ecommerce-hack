@@ -3,17 +3,11 @@ import {
   Search,
   Sparkles,
   CheckCheck,
-  Zap,
   ArrowUpDown,
   AlertCircle,
-  TrendingUp,
   Package,
-  ShoppingBag,
-  DollarSign,
   PieChart as PieIcon,
   CheckCircle2,
-  AlertTriangle,
-  Layers,
   Users,
   MapPin
 } from 'lucide-react';

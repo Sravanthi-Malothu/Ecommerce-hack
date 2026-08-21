@@ -5,20 +5,14 @@ import {
   CheckCircle2,
   AlertTriangle,
   XCircle,
-  Package,
-  TrendingUp,
-  Tag,
-  DollarSign,
-  UserCheck,
-  ShieldAlert,
-  ArrowRight
+  Package
 } from 'lucide-react';
 
 export default function ProductAssessmentModal({ item, onClose }) {
-  if (!item) return null;
-
   // Scenario state: 'SUFFICIENT' (e.g. 1000 units) vs 'INSUFFICIENT' (e.g. 400 units)
   const [stockScenario, setStockScenario] = useState('SUFFICIENT');
+
+  if (!item) return null;
 
   const basePrice = item.base_price || 150;
   const costPrice = Math.round(basePrice * (1 - (item.margin_pct || 0.333)));
@@ -37,7 +31,6 @@ export default function ProductAssessmentModal({ item, onClose }) {
   const inventoryStatus = currentStock >= promoDemand ? 'Sufficient' : 'Insufficient';
   const marginStatus = (priceAfterDiscount - costPrice) / priceAfterDiscount >= 0.15 ? 'Acceptable' : 'Eroded';
   const stockoutRisk = currentStock >= promoDemand ? 'Low' : 'Very High';
-  const recommendation = currentStock >= promoDemand ? 'Promote' : 'Do not promote';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">

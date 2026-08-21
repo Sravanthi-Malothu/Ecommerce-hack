@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
   TrendingUp,
-  DollarSign,
   Trophy,
   Zap,
-  Percent,
   Calendar,
   Filter,
   BarChart3,
   Sparkles,
-  ShieldCheck,
-  Package,
-  Download,
-  ArrowUpRight
+  Package
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -21,9 +16,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
-  LineChart,
-  Line
+  Legend
 } from 'recharts';
 
 export default function MonthlyPerformanceTrackerView() {

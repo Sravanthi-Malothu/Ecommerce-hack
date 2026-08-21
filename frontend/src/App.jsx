@@ -9,6 +9,7 @@ import DecisionHistoryTrackerView from './components/DecisionHistoryTrackerView'
 import CrossProductBundlesView from './components/CrossProductBundlesView';
 import BusinessArchitectureView from './components/BusinessArchitectureView';
 import PredictiveMlDashboardView from './components/PredictiveMlDashboardView';
+import BacktestEvaluationView from './components/BacktestEvaluationView';
 import ChatbotWidget from './components/ChatbotWidget';
 import ProductAssessmentModal from './components/ProductAssessmentModal';
 import UserProfileModal from './components/UserProfileModal';
@@ -21,7 +22,7 @@ export default function App() {
   const [activeDatasetId, setActiveDatasetId] = useState('SYNTHETIC');
   const [recommendations, setRecommendations] = useState([]);
   const [summary, setSummary] = useState(null);
-  const [heatmapData, setHeatmapData] = useState([]);
+  const [_heatmapData, setHeatmapData] = useState([]);
   const [fatigueData, setFatigueData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAssessmentItem, setSelectedAssessmentItem] = useState(null);
@@ -287,6 +288,10 @@ export default function App() {
 
               {activeTab === 'ML_PREDICTIVE' && (
                 <PredictiveMlDashboardView />
+              )}
+
+              {activeTab === 'BACKTEST_EVAL' && (
+                <BacktestEvaluationView />
               )}
 
               {activeTab === 'CROSS_PRODUCT_BUNDLES' && (

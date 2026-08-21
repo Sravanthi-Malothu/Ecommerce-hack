@@ -37,7 +37,7 @@ export default function CampaignSummaryDashboard({ summary, onExportCSV, onStatu
     readinessScore,
     riskDistribution = {},
     categoryBreakdown = [],
-    regionBreakdown = [],
+    _regionBreakdown = [],
     approvedItems = []
   } = summary;
 

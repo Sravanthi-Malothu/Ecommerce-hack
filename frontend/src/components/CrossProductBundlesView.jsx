@@ -2,19 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   PackagePlus,
   Sparkles,
-  CheckCircle2,
-  AlertTriangle,
   TrendingUp,
   Percent,
-  Layers,
   Filter,
   DollarSign,
-  ArrowRight,
   ShieldCheck,
   ShoppingBag,
-  Zap,
-  Award,
-  ThumbsUp
+  Award
 } from 'lucide-react';
 import {
   ResponsiveContainer,

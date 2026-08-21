@@ -10,6 +10,11 @@ import { getDatasetById } from '../engine/datasetParser.js';
 import { computePromotionMetrics } from '../engine/scoringEngine.js';
 import { evaluateConstraints } from '../engine/constraintEngine.js';
 import { generateExplanation } from '../engine/explanationEngine.js';
+import { runBacktestEvaluation, printBacktestSummaryTable } from '../engine/backtestEngine.js';
+import { MODEL_CARDS } from '../data/modelCards.js';
+import { getMetricsSummary } from '../utils/telemetry.js';
+import { groqBreaker, geminiBreaker } from '../engine/chatEngine.js';
+import { pythonMlBreaker } from '../engine/pythonMlBridge.js';
 
 const router = express.Router();
 
@@ -474,6 +479,54 @@ router.get('/analytics/monthly-performance', (req, res) => {
     leaderboards: monthlyData.leaderboards,
     records: monthlyData.records,
     feedbackScores: monthlyData.feedbackScores
+  });
+});
+
+/**
+ * GET /api/analytics/backtest
+ * Returns comprehensive backtest & model evaluation results for active or specified dataset benchmark
+ */
+router.get('/analytics/backtest', (req, res) => {
+  const datasetId = req.query.datasetId || appState.activeDatasetId;
+  const report = runBacktestEvaluation(datasetId);
+  printBacktestSummaryTable(report);
+  res.json(report);
+});
+
+/**
+ * GET /api/analytics/model-cards
+ * Returns detailed Model Cards documentation for all 6 ML algorithms
+ */
+router.get('/analytics/model-cards', (req, res) => {
+  res.json({ modelCards: MODEL_CARDS });
+});
+
+/**
+ * GET /api/metrics
+ * Returns real-time LLM telemetry metrics, latency breakdowns, estimated costs, and circuit breaker statuses
+ */
+router.get('/metrics', (req, res) => {
+  const metrics = getMetricsSummary({
+    groqBreaker,
+    geminiBreaker,
+    pythonMlBreaker
+  });
+  res.json(metrics);
+});
+
+/**
+ * POST /api/analytics/run-backtest
+ * Triggers an on-demand backtest evaluation run against any specified dataset
+ */
+router.post('/analytics/run-backtest', (req, res) => {
+  const { datasetId } = req.body;
+  const targetDatasetId = datasetId || appState.activeDatasetId;
+  const report = runBacktestEvaluation(targetDatasetId);
+  printBacktestSummaryTable(report);
+  res.json({
+    success: true,
+    message: `Backtest evaluation executed successfully for dataset ${targetDatasetId}`,
+    report
   });
 });
 

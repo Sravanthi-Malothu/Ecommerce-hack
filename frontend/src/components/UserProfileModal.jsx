@@ -10,10 +10,8 @@ import {
   CheckCircle2,
   Save,
   Download,
-  Key,
-  Sliders,
-  Sparkles,
-  Award
+  Award,
+  Sliders
 } from 'lucide-react';
 
 export default function UserProfileModal({

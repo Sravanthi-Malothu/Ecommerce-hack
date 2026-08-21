@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CheckCircle2,
   XCircle,
   AlertTriangle,
   Sliders,
-  TrendingUp,
-  PackageCheck,
-  DollarSign,
-  Info,
   ChevronDown,
   ChevronUp,
   MessageSquare,
@@ -29,6 +25,10 @@ export default function RecommendationCard({
   const [isUpdating, setIsUpdating] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const [newNoteText, setNewNoteText] = useState('');
+
+  useEffect(() => {
+    setLocalDiscount(item.discount_pct);
+  }, [item.discount_pct]);
 
   const {
     id,

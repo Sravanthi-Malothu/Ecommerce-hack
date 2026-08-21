@@ -1,6 +1,9 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import { CircuitBreaker } from '../utils/circuitBreaker.js';
+import { logger, getCorrelationId } from '../utils/logger.js';
+import { recordLlmTelemetry } from '../utils/telemetry.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,61 +12,65 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 const GROQ_API_KEY = process.env.GROQ_API_KEY || '';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
+// Circuit Breaker Instances with 3-failure threshold and 15s reset window
+export const groqBreaker = new CircuitBreaker('Groq_LLM_API', { failureThreshold: 3, resetTimeoutMs: 15000 });
+export const geminiBreaker = new CircuitBreaker('Gemini_LLM_API', { failureThreshold: 3, resetTimeoutMs: 15000 });
+
 /**
  * PromoAlign AI Chatbot Engine
- * Powered by Groq AI & Google Gemini AI with Live Dataset Context & Local Fallback.
+ * Powered by Groq AI & Google Gemini AI with Resilience, Circuit Breakers & Observability.
  */
 export async function processChatMessage(userMessage, persona = 'MARKETING', appState = {}) {
+  const correlationId = getCorrelationId();
   const msg = (userMessage || '').trim();
   const recommendations = appState.recommendations || [];
   const summary = appState.summary || {};
   const activeDatasetName = appState.datasetName || 'PromoAlign Core Retail Dataset';
   const kaggleStats = appState.kaggleStats || null;
 
-  // 1. Attempt Ultra-Fast Groq LLM Generation (Model: groq/compound)
+  logger.info(`💬 Processing Chat Message: "${msg.slice(0, 50)}..."`, { correlationId, persona, datasetName: activeDatasetName });
+
+  // 1. Attempt Primary Provider: Groq Llama 3.3 70B via groqBreaker
   if (GROQ_API_KEY) {
     try {
-      const groqReply = await queryGroqAI(msg, persona, {
-        activeDatasetName,
-        recommendations,
-        summary,
-        kaggleStats
-      });
-
-      if (groqReply) {
-        return groqReply;
-      }
+      const groqReply = await groqBreaker.execute(
+        () => queryGroqAI(msg, persona, { activeDatasetName, recommendations, summary, kaggleStats }, correlationId),
+        null // Pass to catch block for secondary provider failover
+      );
+      if (groqReply) return groqReply;
     } catch (err) {
-      console.warn('⚠️ Groq AI query failed, trying Gemini API:', err.message);
+      logger.warn(`⚠️ Groq AI query failed or circuit OPEN. Failing over to Gemini API.`, { correlationId, error: err.message });
     }
   }
 
-  // 2. Attempt Google Gemini AI Generation
+  // 2. Attempt Secondary Provider: Google Gemini 1.5 Flash via geminiBreaker
   if (GEMINI_API_KEY) {
     try {
-      const geminiReply = await queryGeminiAI(msg, persona, {
-        activeDatasetName,
-        recommendations,
-        summary,
-        kaggleStats
-      });
-
-      if (geminiReply) {
-        return geminiReply;
-      }
+      const geminiReply = await geminiBreaker.execute(
+        () => queryGeminiAI(msg, persona, { activeDatasetName, recommendations, summary, kaggleStats }, correlationId),
+        null // Pass to catch block for local fallback
+      );
+      if (geminiReply) return geminiReply;
     } catch (err) {
-      console.warn('⚠️ Gemini AI query failed, executing high-relevance parser:', err.message);
+      logger.warn(`⚠️ Gemini AI query failed or circuit OPEN. Failing over to Local Rule Engine.`, { correlationId, error: err.message });
     }
   }
 
-  // 3. Smart Context-Aware High-Relevance Analytics Engine Fallback
-  return highRelevanceAnalyticsEngine(msg, recommendations, summary, activeDatasetName, kaggleStats);
+  // 3. Fallback: Context-Aware Local Rule Engine
+  const startTime = Date.now();
+  logger.info(`⚡ Executing Local Rule Engine Fallback`, { correlationId });
+  const localReply = highRelevanceAnalyticsEngine(msg, recommendations, summary, activeDatasetName, kaggleStats);
+  const latencyMs = Date.now() - startTime;
+  recordLlmTelemetry({ provider: 'local_rule', latencyMs, inputText: msg, outputText: localReply.text, status: 'SUCCESS', correlationId });
+
+  return localReply;
 }
 
 /**
- * Ultra-Fast Groq AI Call (OpenAI-compatible Endpoint)
+ * Ultra-Fast Groq AI Call via REST API
  */
-async function queryGroqAI(userMsg, persona, context) {
+async function queryGroqAI(userMsg, persona, context, correlationId) {
+  const startTime = Date.now();
   const url = "https://api.groq.com/openai/v1/chat/completions";
 
   const sampleRecs = (context.recommendations || []).slice(0, 15).map(r => 
@@ -78,25 +85,20 @@ ACTIVE DATASET: "${context.activeDatasetName}"
 USER ROLE / PERSONA: ${persona}
 
 LIVE CAMPAIGN METRICS:
-- Total Analyzed Candidates: ${context.recommendations.length} items
+- Total Candidate Promos: ${context.recommendations.length} items
 - Projected Revenue Lift: +₹${(context.summary.totalIncrementalRevenue || 420000).toLocaleString('en-IN')}
-- Total Margin Preserved: ₹${(context.summary.totalMarginDollars || 175000).toLocaleString('en-IN')} (Avg Margin: ${context.summary.avgMarginPct || 41.5}%)
-- Stockout Risk Items: ${context.recommendations.filter(r => r.constraintEval.riskLevel === 'STOCKOUT_RISK').length}
-- Margin Risk Items: ${context.recommendations.filter(r => r.constraintEval.riskLevel === 'MARGIN_RISK').length}
+- Total Margin Preserved: ₹${(context.summary.totalMarginDollars || 175000).toLocaleString('en-IN')}
 
 SAMPLE CANDIDATE PROMOTIONS DATASET:
 ${sampleRecs}
 
-${context.kaggleStats ? `KAGGLE STATISTICS:\n${JSON.stringify(context.kaggleStats, null, 2)}` : ''}
-
 INSTRUCTIONS:
 1. Answer the user's question directly with clear, articulate markdown.
 2. Render all prices and financial values in Indian Rupees (₹ / INR).
-3. If asked about a product, stock, price, margin, or risk, quote exact values from the dataset.
   `;
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout
+  const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
 
   try {
     const res = await fetch(url, {
@@ -106,7 +108,7 @@ INSTRUCTIONS:
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "groq/compound",
+        model: "llama-3.1-8b-instant",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userMsg }
@@ -118,47 +120,46 @@ INSTRUCTIONS:
     });
 
     clearTimeout(timeoutId);
+    const latencyMs = Date.now() - startTime;
 
     if (res.ok) {
       const data = await res.json();
       if (data.choices && data.choices[0] && data.choices[0].message) {
         const replyText = data.choices[0].message.content.trim();
+        recordLlmTelemetry({ provider: 'groq', latencyMs, inputText: userMsg, outputText: replyText, status: 'SUCCESS', correlationId });
 
-        const lower = userMsg.toLowerCase();
-        let actions = [
-          { label: '📊 Kaggle Dataset Analytics', command: 'ASK_QUERY', value: 'What is the total sales and top products in the dataset?' },
-          { label: '🔴 Show Stockout Risks', command: 'FILTER_RISK', value: 'STOCKOUT_RISK' },
-          { label: '📈 Summarize Campaign ROI', command: 'NAV_TAB', value: 'SUMMARY' },
-          { label: '🟢 Approve Healthy Promos', command: 'APPROVE_HEALTHY' }
-        ];
-
-        if (lower.includes('stockout') || lower.includes('inventory')) {
-          actions = [
-            { label: 'Filter Stockout Risks in Feed', command: 'FILTER_RISK', value: 'STOCKOUT_RISK' },
-            { label: 'View Business Hierarchy', command: 'NAV_TAB', value: 'BUSINESS_TREE' }
-          ];
-        }
+        logger.info(`✅ Groq LLM API Call Succeeded (${latencyMs}ms)`, { correlationId, provider: 'groq' });
 
         return {
           text: replyText,
           type: 'GROQ_AI_RESPONSE',
-          actions
+          actions: [
+            { label: '📊 Kaggle Dataset Analytics', command: 'ASK_QUERY', value: 'What is the total sales and top products in the dataset?' },
+            { label: '🔴 Show Stockout Risks', command: 'FILTER_RISK', value: 'STOCKOUT_RISK' },
+            { label: '📈 Summarize Campaign ROI', command: 'NAV_TAB', value: 'SUMMARY' },
+            { label: '🟢 Approve Healthy Promos', command: 'APPROVE_HEALTHY' }
+          ]
         };
       }
     }
+
+    const errText = await res.text();
+    recordLlmTelemetry({ provider: 'groq', latencyMs, inputText: userMsg, outputText: '', status: 'ERROR', correlationId });
+    throw new Error(`Groq API returned HTTP ${res.status}: ${errText}`);
   } catch (err) {
     clearTimeout(timeoutId);
+    const latencyMs = Date.now() - startTime;
+    recordLlmTelemetry({ provider: 'groq', latencyMs, inputText: userMsg, outputText: '', status: 'ERROR', correlationId });
     throw err;
   }
-
-  return null;
 }
 
 /**
  * Google Gemini AI Call via REST API
  */
-async function queryGeminiAI(userMsg, persona, context) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}`;
+async function queryGeminiAI(userMsg, persona, context, correlationId) {
+  const startTime = Date.now();
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
   const sampleRecs = (context.recommendations || []).slice(0, 10).map(r => 
     `- "${r.product_name}" (${r.category}) | Region: ${r.region} | Target: "${r.segment_name}" | Base Price: ₹${r.base_price} | Discount: ${r.discount_pct}% OFF | Stock: ${r.metrics.stockQty} units | Demand: ${r.metrics.projectedUnits} units | Rev Lift: +₹${r.metrics.projectedRevenue.toLocaleString('en-IN')} | Risk: ${r.constraintEval.riskLevel}`
@@ -186,7 +187,7 @@ INSTRUCTIONS:
   };
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 6000);
+  const timeoutId = setTimeout(() => controller.abort(), 3000);
 
   try {
     const res = await fetch(url, {
@@ -197,11 +198,15 @@ INSTRUCTIONS:
     });
 
     clearTimeout(timeoutId);
+    const latencyMs = Date.now() - startTime;
 
     if (res.ok) {
       const data = await res.json();
       if (data.candidates && data.candidates[0] && data.candidates[0].content) {
         const replyText = data.candidates[0].content.parts[0].text.trim();
+        recordLlmTelemetry({ provider: 'gemini', latencyMs, inputText: userMsg, outputText: replyText, status: 'SUCCESS', correlationId });
+
+        logger.info(`✅ Gemini LLM API Call Succeeded (${latencyMs}ms)`, { correlationId, provider: 'gemini' });
 
         return {
           text: replyText,
@@ -215,12 +220,16 @@ INSTRUCTIONS:
         };
       }
     }
+
+    const errText = await res.text();
+    recordLlmTelemetry({ provider: 'gemini', latencyMs, inputText: userMsg, outputText: '', status: 'ERROR', correlationId });
+    throw new Error(`Gemini API returned HTTP ${res.status}: ${errText}`);
   } catch (err) {
     clearTimeout(timeoutId);
+    const latencyMs = Date.now() - startTime;
+    recordLlmTelemetry({ provider: 'gemini', latencyMs, inputText: userMsg, outputText: '', status: 'ERROR', correlationId });
     throw err;
   }
-
-  return null;
 }
 
 /**
